@@ -54,7 +54,7 @@
         "required": true,
         "order": 1,
         "placeholder": "ABC",
-        "hint": "The place must have this format",
+        "hint": "The place must have this format: ABC",
         "controlType": "textbox"
       },
       {
@@ -64,7 +64,7 @@
         "required": true,
         "order": 1,
         "placeholder": "ABC",
-        "hint": "The place must have this format",
+        "hint": "The place must have this format: ABC",
         "controlType": "textbox"
       },
       {
@@ -74,17 +74,17 @@
         "required": true,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
-        "hint": "The date must have this format",
+        "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
       },
       {
         "key": "RETURN_DATE",
         "label": "Choose an optional return date.",
-        "help": "OPTIONAL",
+        "help": "Optional",
         "required": false,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
-        "hint": "The date must have this format",
+        "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
       }
     ]
