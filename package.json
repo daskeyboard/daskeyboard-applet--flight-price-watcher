@@ -48,7 +48,7 @@
     },
     "questions": [
       {
-        "key": "ORIGIN_PLACE",
+        "key": "originPlace",
         "label": "Choose an origin place.",
         "help": "",
         "required": true,
@@ -58,7 +58,7 @@
         "controlType": "textbox"
       },
       {
-        "key": "DESTINATION_PLACE",
+        "key": "destinationPlace",
         "label": "Choose an destination place.",
         "help": "",
         "required": true,
@@ -68,7 +68,7 @@
         "controlType": "textbox"
       },
       {
-        "key": "DEPART_DATE",
+        "key": "departDate",
         "label": "Choose an depart date.",
         "help": "",
         "required": true,
@@ -78,7 +78,7 @@
         "controlType": "textbox"
       },
       {
-        "key": "RETURN_DATE",
+        "key": "returnDate",
         "label": "Choose an optional return date.",
         "help": "Optional",
         "required": false,
