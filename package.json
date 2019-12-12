@@ -30,7 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "daskeyboard-applet": "^2.11.4",
-    "localStorage": "^1.0.4"
+    "request-promise": "^4.2.5"
   },
   "qConfig": {
     "geometry": {
@@ -50,7 +50,7 @@
       {
         "key": "ORIGIN_PLACE",
         "label": "Choose an origin place.",
-        "help": "",
+        "help": "ABC",
         "required": true,
         "order": 1,
         "value": "SFO",
@@ -59,7 +59,7 @@
       {
         "key": "DESTINATION_PLACE",
         "label": "Choose an destination place.",
-        "help": "",
+        "help": "ABC",
         "required": true,
         "order": 1,
         "value": "AUS",
@@ -68,19 +68,19 @@
       {
         "key": "DEPART_DATE",
         "label": "Choose an depart date.",
-        "help": "yyyy-mm-dd",
+        "help": "",
         "required": true,
         "order": 1,
-        "value": "2020-01-01",
+        "value": "yyyy-mm-dd",
         "controlType": "textbox"
       },
       {
         "key": "RETURN_DATE",
         "label": "Choose an optional return date.",
-        "help": "yyyy-mm-dd",
+        "help": "OPTIONAL",
         "required": false,
         "order": 1,
-        "value": "",
+        "value": "yyyy-mm-dd",
         "controlType": "textbox"
       }
     ]
