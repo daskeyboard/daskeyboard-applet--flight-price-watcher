@@ -1,0 +1,8 @@
+{
+  "name": "daskeyboard-applet--flight-price-watcher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:daskeyboard/daskeyboard-applet--flight-price-watcher.git",
+  "author": "Das Keyboard",
+  "license": "MIT"
+}
