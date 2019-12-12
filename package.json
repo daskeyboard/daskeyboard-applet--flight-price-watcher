@@ -50,19 +50,21 @@
       {
         "key": "ORIGIN_PLACE",
         "label": "Choose an origin place.",
-        "help": "ABC",
+        "help": "",
         "required": true,
         "order": 1,
-        "value": "SFO",
+        "placeholder": "ABC",
+        "hint": "The place must have this format",
         "controlType": "textbox"
       },
       {
         "key": "DESTINATION_PLACE",
         "label": "Choose an destination place.",
-        "help": "ABC",
+        "help": "",
         "required": true,
         "order": 1,
-        "value": "AUS",
+        "placeholder": "ABC",
+        "hint": "The place must have this format",
         "controlType": "textbox"
       },
       {
@@ -71,7 +73,8 @@
         "help": "",
         "required": true,
         "order": 1,
-        "value": "yyyy-mm-dd",
+        "placeholder": "yyyy-mm-dd",
+        "hint": "The date must have this format",
         "controlType": "textbox"
       },
       {
@@ -80,7 +83,8 @@
         "help": "OPTIONAL",
         "required": false,
         "order": 1,
-        "value": "yyyy-mm-dd",
+        "placeholder": "yyyy-mm-dd",
+        "hint": "The date must have this format",
         "controlType": "textbox"
       }
     ]
