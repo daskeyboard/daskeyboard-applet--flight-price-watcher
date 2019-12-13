@@ -5,13 +5,13 @@ const logger = q.logger;
 // Check the price of a selected flight every minute in order to buy it at the best price
 // Compare the current price to the old price stored one minute ago
 
-class FlyMe extends q.DesktopApp {
+class FlightPriceWatcher extends q.DesktopApp {
 	
     constructor() {
         super();
         // every minute
         this.pollingInterval = 60*1000; // ms
-		logger.info("Get the cheapest flight price!");
+		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
 	}
 	async getPrice() {
 		// Get the current price of the selected flight 
@@ -22,17 +22,22 @@ class FlyMe extends q.DesktopApp {
 			method: 'GET',
 			headers: {
 				'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-				'x-rapidapi-key': this.authorization.apiKey
+                'x-rapidapi-key': this.authorization.apiKey 
 			}
-		}
+        }
+        if (!this.authorization.apiKey) {
+            throw 'Invalid API key';
+        }
 		return request(settings).then(answer => {
 			const json = JSON.parse(answer);
 			if(json.Quotes.length == 0) {
 				return null;
 			}
-			return json.Quotes[0].MinPrice;
-		});
-	}
+            return json.Quotes[0].MinPrice;
+        // }).catch(error=>{
+        //     console.log(error, "ERRROR!!!");
+        });
+    }
 	// Store price obtained from last update
 	setLastPrice(price) {
 		this.store.put("lastPrice", price);
@@ -51,8 +56,8 @@ class FlyMe extends q.DesktopApp {
 		// Compare the current price to the old price
 		return this.getPrice().then(new_price => {
 			const old_price = this.getLastPrice();
-			console.log('new', new_price);
-			console.log('old', old_price);
+			logger.info(new_price);
+			logger.info(old_price);
 			let color;
 			let message;
 			// If there is no price stored in localStorage
@@ -72,8 +77,9 @@ class FlyMe extends q.DesktopApp {
 				points: [
 					[new q.Point(color)]
 				],
-				name: 'FlyMe',
-				message: message
+				name: 'FlightPriceWatcher',
+                message: message,
+                errors: 'Error signal'
 			});
 			this.setLastPrice(new_price);
 			return a;
@@ -82,7 +88,7 @@ class FlyMe extends q.DesktopApp {
 }
 
 module.exports = {
-	FlyMe: FlyMe
+	FlightPriceWatcher: FlightPriceWatcher
 }
 
-const applet = new FlyMe();
+const applet = new FlightPriceWatcher();
