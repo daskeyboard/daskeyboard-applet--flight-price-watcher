@@ -1,18 +1,20 @@
-export default {
-    "env": {
-        "es6": true,
-        "node": true
+module.exports = {
+    env: {
+        es6: true,
+        node: true,
     },
-    "extends": "eslint:recommended",
-    "globals": {
+    extends: [
+        'eslint:recommended',
+    ],
+    globals: {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
     },
-    "parserOptions": {
+    parserOptions: {
         "ecmaVersion": 2018,
-        "sourceType": "module"
+        "sourceType": "module",
     },
     "rules": {
-        "max-len": 100
-    }
+        "max-len": [2, {"code": 100, "tabWidth": 4, "ignoreUrls": true}],
+    },
 };
