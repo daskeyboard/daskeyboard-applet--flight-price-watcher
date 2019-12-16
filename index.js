@@ -45,7 +45,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 	// Retrieve stored price data from last update
 	getLastPrice() {
-		if (this.store.get("lastPrice") != null){
+		if (this.store.get("lastPrice") != null) {
 			return this.store.get("lastPrice");
 		} else {
 			// If no price is stored
