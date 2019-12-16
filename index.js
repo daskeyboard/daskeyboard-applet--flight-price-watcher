@@ -91,4 +91,4 @@ module.exports = {
 	FlightPriceWatcher: FlightPriceWatcher
 }
 
-const applet = new FlightPriceWatcher();
+new FlightPriceWatcher();
