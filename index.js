@@ -73,7 +73,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 				message = `The best price for this flight is ${new_price}$.`;
 			} else if (new_price > old_price) {
 				color = '#DF0101'; // red
-				message = `The best price for this flight was ${old_price}$. The price is now ${new_price}$`;
+				message = `The best price was ${old_price}$ and is now ${new_price}$`;
 			}
 			const a = new q.Signal({
 				points: [
