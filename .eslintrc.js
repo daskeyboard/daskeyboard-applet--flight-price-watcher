@@ -13,6 +13,6 @@ export default {
         "sourceType": "module"
     },
     "rules": {
-        "max-len": 10
+        "max-len": 100
     }
 };
