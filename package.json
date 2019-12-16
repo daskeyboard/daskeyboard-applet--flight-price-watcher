@@ -24,7 +24,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint index.js --fix"
   },
   "author": "Camille Bouquet",
   "license": "MIT",

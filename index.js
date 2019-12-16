@@ -13,6 +13,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		this.pollingInterval = 60 * 1000; // ms
 		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
 	}
+
 	async getPrice() {
 		// Get the current price of the selected flight 
 		logger.info(`Getting price`);
@@ -38,11 +39,13 @@ class FlightPriceWatcher extends q.DesktopApp {
 			//     console.log(error, "ERRROR!!!");
 		});
 	}
+
 	// Store price obtained from last update
 	setLastPrice(price) {
 		this.store.put("lastPrice", price);
 		return true;
 	}
+
 	// Retrieve stored price data from last update
 	getLastPrice() {
 		if (this.store.get("lastPrice") != null) {
@@ -52,6 +55,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			return null;
 		}
 	}
+
 	async run() {
 		// Compare the current price to the old price
 		return this.getPrice().then(new_price => {
