@@ -18,7 +18,9 @@ class FlightPriceWatcher extends q.DesktopApp {
 		logger.info(`Getting price`);
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		const settings = {
-			url: `${API_BASE_URL}/browsequotes/v1.0/US/USD/en-US/${this.config.originPlace}-sky/${this.config.destinationPlace}-sky/${this.config.departDate}?inboundpartialdate=${this.config.returnDate}`,
+			url: `${API_BASE_URL}/browsequotes/v1.0/US/USD/en-US/${this.config.originPlace}-sky/
+			${this.config.destinationPlace}-sky/${this.config.departDate}?inboundpartialdate=
+			${this.config.returnDate}`,
 			method: 'GET',
 			headers: {
 				'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
@@ -69,7 +71,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 				message = `The best price for this flight is ${new_price}$.`;
 			} else if (new_price > old_price) {
 				color = '#DF0101'; // red
-				message = `Unfortunately, the best price for this flight was ${old_price}$. Now the price is ${new_price}$`;
+				message = `Unfortunately, the best price for this flight was ${old_price}$. 
+				Now the price is ${new_price}$`;
 			}
 			const a = new q.Signal({
 				points: [
