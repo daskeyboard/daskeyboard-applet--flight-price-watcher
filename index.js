@@ -18,7 +18,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// Get the current price of the selected flight 
 		logger.info(`Getting price`);
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
-		const API_WORLD_URL = `browsequotes/v1.0/${this.config.country}/${this.config.currency}/en-US`;
+		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
 		const place = `${this.config.originPlace}-sky/${this.config.destinationPlace}-sky`;
 		const date = `${this.config.departDate}?inboundpartialdate=${this.config.returnDate}`;
 		const settings = {
