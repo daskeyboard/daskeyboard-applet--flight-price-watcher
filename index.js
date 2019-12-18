@@ -18,11 +18,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// Get the current price of the selected flight 
 		logger.info(`Getting price`);
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
-		const API_USA_URL = 'browsequotes/v1.0/US/USD/en-US';
+		const API_WORLD_URL = `browsequotes/v1.0/${this.config.country}/${this.config.currency}/en-US`;
 		const place = `${this.config.originPlace}-sky/${this.config.destinationPlace}-sky`;
 		const date = `${this.config.departDate}?inboundpartialdate=${this.config.returnDate}`;
 		const settings = {
-			url: `${API_BASE_URL}/${API_USA_URL}/${place}/${date}`,
+			url: `${API_BASE_URL}/${API_WORLD_URL}/${place}/${date}`,
 			method: 'GET',
 			headers: {
 				'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
@@ -37,9 +37,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 			if (json.Quotes.length == 0) {
 				return null;
 			}
+			// Collects the first element of "Quotes" corresponding to the minprice for the selected flight.
 			return json.Quotes[0].MinPrice;
-			// }).catch(error=>{
-			//     console.log(error, "ERRROR!!!");
 		});
 	}
 
@@ -63,20 +62,22 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// Compare the current price to the old price
 		return this.getPrice().then(new_price => {
 			const old_price = this.getLastPrice();
-			logger.info(new_price);
-			logger.info(old_price);
+			logger.info(`The new price is ${new_price}`);
+			logger.info(`The old price is ${old_price}`);
 			let color;
 			let message;
 			// If there is no price stored in localStorage
 			if (old_price == null) {
-				color = '#000000'; // black
-				message = `The best price for this flight is ${new_price}$.`;
+				color = '#088A08'; // green
+				message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
 			} else if (new_price <= old_price) {
 				color = '#088A08'; // green
-				message = `The best price for this flight is ${new_price}$.`;
+				message = `The best price for this flight is ${new_price} ${this.config.currency}.
+				Let's buy it!`;
 			} else if (new_price > old_price) {
 				color = '#DF0101'; // red
-				message = `The best price was ${old_price}$ and is now ${new_price}$`;
+				message = `The best price was ${old_price} ${this.config.currency} 
+				and is now ${new_price} ${this.config.currency}`;
 			}
 			const a = new q.Signal({
 				points: [

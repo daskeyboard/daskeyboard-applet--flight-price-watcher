@@ -45,9 +45,1573 @@
     "authorization": {
       "type": "apiKey",
       "hint": "Get the api key from the search flight page of Skyscanner website.",
-      "supportUrl": "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0"
+      "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search?endpoint=5aa1eab3e4b00687d3574279"
     },
     "questions": [
+      {
+        "key": "country",
+        "label": "Choose the market country you are in.",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "controlType": "dropdown",
+        "options": [
+          {
+          "key":"AD",
+          "value":"Andorra"
+          },
+          {
+          "key":"AE",
+          "value":"United Arab Emirates"
+          },
+          {
+          "key":"AF",
+          "value":"Afghanistan"
+          },
+          {
+          "key":"AG",
+          "value":"Antigua and Barbuda"
+          },
+          {
+          "key":"AI",
+          "value":"Anguilla"
+          },
+          {
+          "key":"AL",
+          "value":"Albania"
+          },
+          {
+          "key":"AM",
+          "value":"Armenia"
+          },
+          {
+          "key":"AO",
+          "value":"Angola"
+          },
+          {
+          "key":"AQ",
+          "value":"Antarctica"
+          },
+          {
+          "key":"AR",
+          "value":"Argentina"
+          },
+          {
+          "key":"AS",
+          "value":"American Samoa"
+          },
+          {
+          "key":"AT",
+          "value":"Austria"
+          },
+          {
+          "key":"AU",
+          "value":"Australia"
+          },
+          {
+          "key":"AW",
+          "value":"Aruba"
+          },
+          {
+          "key":"AZ",
+          "value":"Azerbaijan"
+          },
+          {
+          "key":"BA",
+          "value":"Bosnia and Herzegovina"
+          },
+          {
+          "key":"BB",
+          "value":"Barbados"
+          },
+          {
+          "key":"BD",
+          "value":"Bangladesh"
+          },
+          {
+          "key":"BE",
+          "value":"Belgium"
+          },
+          {
+          "key":"BF",
+          "value":"Burkina Faso"
+          },
+          {
+          "key":"BG",
+          "value":"Bulgaria"
+          },
+          {
+          "key":"BH",
+          "value":"Bahrain"
+          },
+          {
+          "key":"BI",
+          "value":"Burundi"
+          },
+          {
+          "key":"BJ",
+          "value":"Benin"
+          },
+          {
+          "key":"BL",
+          "value":"Saint Barthelemy"
+          },
+          {
+          "key":"BM",
+          "value":"Bermuda"
+          },
+          {
+          "key":"BN",
+          "value":"Brunei"
+          },
+          {
+          "key":"BO",
+          "value":"Bolivia"
+          },
+          {
+          "key":"BQ",
+          "value":"Caribbean Netherlands"
+          },
+          {
+          "key":"BR",
+          "value":"Brazil"
+          },
+          {
+          "key":"BS",
+          "value":"Bahamas"
+          },
+          {
+          "key":"BT",
+          "value":"Bhutan"
+          },
+          {
+          "key":"BW",
+          "value":"Botswana"
+          },
+          {
+          "key":"BY",
+          "value":"Belarus"
+          },
+          {
+          "key":"BZ",
+          "value":"Belize"
+          },
+          {
+          "key":"CA",
+          "value":"Canada"
+          },
+          {
+          "key":"CC",
+          "value":"Cocos (Keeling) Islands"
+          },
+          {
+          "key":"CD",
+          "value":"DR Congo"
+          },
+          {
+          "key":"CF",
+          "value":"Central African Republic"
+          },
+          {
+          "key":"CG",
+          "value":"Congo"
+          },
+          {
+          "key":"CH",
+          "value":"Switzerland"
+          },
+          {
+          "key":"CI",
+          "value":"Ivory Coast"
+          },
+          {
+          "key":"CK",
+          "value":"Cook Islands"
+          },
+          {
+          "key":"CL",
+          "value":"Chile"
+          },
+          {
+          "key":"CM",
+          "value":"Cameroon"
+          },
+          {
+          "key":"CN",
+          "value":"China"
+          },
+          {
+          "key":"CO",
+          "value":"Colombia"
+          },
+          {
+          "key":"CR",
+          "value":"Costa Rica"
+          },
+          {
+          "key":"CU",
+          "value":"Cuba"
+          },
+          {
+          "key":"CV",
+          "value":"Cape Verde"
+          },
+          {
+          "key":"CW",
+          "value":"Curacao"
+          },
+          {
+          "key":"CX",
+          "value":"Christmas Island"
+          },
+          {
+          "key":"CY",
+          "value":"Cyprus"
+          },
+          {
+          "key":"CZ",
+          "value":"Czech Republic"
+          },
+          {
+          "key":"DE",
+          "value":"Germany"
+          },
+          {
+          "key":"DJ",
+          "value":"Djibouti"
+          },
+          {
+          "key":"DK",
+          "value":"Denmark"
+          },
+          {
+          "key":"DM",
+          "value":"Dominica"
+          },
+          {
+          "key":"DO",
+          "value":"Dominican Republic"
+          },
+          {
+          "key":"DZ",
+          "value":"Algeria"
+          },
+          {
+          "key":"EC",
+          "value":"Ecuador"
+          },
+          {
+          "key":"EE",
+          "value":"Estonia"
+          },
+          {
+          "key":"EG",
+          "value":"Egypt"
+          },
+          {
+          "key":"ER",
+          "value":"Eritrea"
+          },
+          {
+          "key":"ES",
+          "value":"Spain"
+          },
+          {
+          "key":"ET",
+          "value":"Ethiopia"
+          },
+          {
+          "key":"FI",
+          "value":"Finland"
+          },
+          {
+          "key":"FJ",
+          "value":"Fiji"
+          },
+          {
+          "key":"FK",
+          "value":"Falkland Islands"
+          },
+          {
+          "key":"FM",
+          "value":"Micronesia"
+          },
+          {
+          "key":"FO",
+          "value":"Faroe Islands"
+          },
+          {
+          "key":"FR",
+          "value":"France"
+          },
+          {
+          "key":"GA",
+          "value":"Gabon"
+          },
+          {
+          "key":"GD",
+          "value":"Grenada"
+          },
+          {
+          "key":"GE",
+          "value":"Georgia"
+          },
+          {
+          "key":"GF",
+          "value":"French Guiana"
+          },
+          {
+          "key":"GG",
+          "value":"Guernsey"
+          },
+          {
+          "key":"GH",
+          "value":"Ghana"
+          },
+          {
+          "key":"GI",
+          "value":"Gibraltar"
+          },
+          {
+          "key":"GL",
+          "value":"Greenland"
+          },
+          {
+          "key":"GM",
+          "value":"Gambia"
+          },
+          {
+          "key":"GN",
+          "value":"Guinea"
+          },
+          {
+          "key":"GP",
+          "value":"Guadeloupe"
+          },
+          {
+          "key":"GQ",
+          "value":"Equatorial Guinea"
+          },
+          {
+          "key":"GR",
+          "value":"Greece"
+          },
+          {
+          "key":"GS",
+          "value":"South Georgia & South Sandwich Islands"
+          },
+          {
+          "key":"GT",
+          "value":"Guatemala"
+          },
+          {
+          "key":"GU",
+          "value":"Guam"
+          },
+          {
+          "key":"GW",
+          "value":"Guinea-Bissau"
+          },
+          {
+          "key":"GY",
+          "value":"Guyana"
+          },
+          {
+          "key":"HK",
+          "value":"Hong Kong"
+          },
+          {
+          "key":"HN",
+          "value":"Honduras"
+          },
+          {
+          "key":"HR",
+          "value":"Croatia"
+          },
+          {
+          "key":"HT",
+          "value":"Haiti"
+          },
+          {
+          "key":"HU",
+          "value":"Hungary"
+          },
+          {
+          "key":"ID",
+          "value":"Indonesia"
+          },
+          {
+          "key":"IE",
+          "value":"Ireland"
+          },
+          {
+          "key":"IL",
+          "value":"Israel"
+          },
+          {
+          "key":"IN",
+          "value":"India"
+          },
+          {
+          "key":"IQ",
+          "value":"Iraq"
+          },
+          {
+          "key":"IR",
+          "value":"Iran"
+          },
+          {
+          "key":"IS",
+          "value":"Iceland"
+          },
+          {
+          "key":"IT",
+          "value":"Italy"
+          },
+          {
+          "key":"JM",
+          "value":"Jamaica"
+          },
+          {
+          "key":"JO",
+          "value":"Jordan"
+          },
+          {
+          "key":"JP",
+          "value":"Japan"
+          },
+          {
+          "key":"KE",
+          "value":"Kenya"
+          },
+          {
+          "key":"KG",
+          "value":"Kyrgyzstan"
+          },
+          {
+          "key":"KH",
+          "value":"Cambodia"
+          },
+          {
+          "key":"KI",
+          "value":"Kiribati"
+          },
+          {
+          "key":"KM",
+          "value":"Comoros"
+          },
+          {
+          "key":"KN",
+          "value":"Saint Kitts and Nevis"
+          },
+          {
+          "key":"KO",
+          "value":"Kosovo"
+          },
+          {
+          "key":"KP",
+          "value":"North Korea"
+          },
+          {
+          "key":"KR",
+          "value":"South Korea"
+          },
+          {
+          "key":"KW",
+          "value":"Kuwait"
+          },
+          {
+          "key":"KY",
+          "value":"Cayman Islands"
+          },
+          {
+          "key":"KZ",
+          "value":"Kazakhstan"
+          },
+          {
+          "key":"LA",
+          "value":"Laos"
+          },
+          {
+          "key":"LB",
+          "value":"Lebanon"
+          },
+          {
+          "key":"LC",
+          "value":"Saint Lucia"
+          },
+          {
+          "key":"LI",
+          "value":"Liechtenstein"
+          },
+          {
+          "key":"LK",
+          "value":"Sri Lanka"
+          },
+          {
+          "key":"LR",
+          "value":"Liberia"
+          },
+          {
+          "key":"LS",
+          "value":"Lesotho"
+          },
+          {
+          "key":"LT",
+          "value":"Lithuania"
+          },
+          {
+          "key":"LU",
+          "value":"Luxembourg"
+          },
+          {
+          "key":"LV",
+          "value":"Latvia"
+          },
+          {
+          "key":"LY",
+          "value":"Libya"
+          },
+          {
+          "key":"MA",
+          "value":"Morocco"
+          },
+          {
+          "key":"MC",
+          "value":"Monaco"
+          },
+          {
+          "key":"MD",
+          "value":"Moldova"
+          },
+          {
+          "key":"ME",
+          "value":"Montenegro"
+          },
+          {
+          "key":"MG",
+          "value":"Madagascar"
+          },
+          {
+          "key":"MH",
+          "value":"Marshall Islands"
+          },
+          {
+          "key":"MK",
+          "value":"Republic of Macedonia"
+          },
+          {
+          "key":"ML",
+          "value":"Mali"
+          },
+          {
+          "key":"MM",
+          "value":"Myanmar"
+          },
+          {
+          "key":"MN",
+          "value":"Mongolia"
+          },
+          {
+          "key":"MO",
+          "value":"Macau"
+          },
+          {
+          "key":"MP",
+          "value":"Northern Mariana Islands"
+          },
+          {
+          "key":"MQ",
+          "value":"Martinique"
+          },
+          {
+          "key":"MR",
+          "value":"Mauritania"
+          },
+          {
+          "key":"MS",
+          "value":"Montserrat"
+          },
+          {
+          "key":"MT",
+          "value":"Malta"
+          },
+          {
+          "key":"MU",
+          "value":"Mauritius"
+          },
+          {
+          "key":"MV",
+          "value":"Maldives"
+          },
+          {
+          "key":"MW",
+          "value":"Malawi"
+          },
+          {
+          "key":"MX",
+          "value":"Mexico"
+          },
+          {
+          "key":"MY",
+          "value":"Malaysia"
+          },
+          {
+          "key":"MZ",
+          "value":"Mozambique"
+          },
+          {
+          "key":"NA",
+          "value":"Namibia"
+          },
+          {
+          "key":"NC",
+          "value":"New Caledonia"
+          },
+          {
+          "key":"NE",
+          "value":"Niger"
+          },
+          {
+          "key":"NG",
+          "value":"Nigeria"
+          },
+          {
+          "key":"NI",
+          "value":"Nicaragua"
+          },
+          {
+          "key":"NL",
+          "value":"Netherlands"
+          },
+          {
+          "key":"NO",
+          "value":"Norway"
+          },
+          {
+          "key":"NP",
+          "value":"Nepal"
+          },
+          {
+          "key":"NR",
+          "value":"Nauru"
+          },
+          {
+          "key":"NU",
+          "value":"Niue"
+          },
+          {
+          "key":"NZ",
+          "value":"New Zealand"
+          },
+          {
+          "key":"OM",
+          "value":"Oman"
+          },
+          {
+          "key":"PA",
+          "value":"Panama"
+          },
+          {
+          "key":"PE",
+          "value":"Peru"
+          },
+          {
+          "key":"PF",
+          "value":"French Polynesia"
+          },
+          {
+          "key":"PG",
+          "value":"Papua New Guinea"
+          },
+          {
+          "key":"PH",
+          "value":"Philippines"
+          },
+          {
+          "key":"PK",
+          "value":"Pakistan"
+          },
+          {
+          "key":"PL",
+          "value":"Poland"
+          },
+          {
+          "key":"PM",
+          "value":"St. Pierre and Miquelon"
+          },
+          {
+          "key":"PR",
+          "value":"Puerto Rico"
+          },
+          {
+          "key":"PT",
+          "value":"Portugal"
+          },
+          {
+          "key":"PW",
+          "value":"Palau"
+          },
+          {
+          "key":"PY",
+          "value":"Paraguay"
+          },
+          {
+          "key":"QA",
+          "value":"Qatar"
+          },
+          {
+          "key":"RE",
+          "value":"Reunion"
+          },
+          {
+          "key":"RO",
+          "value":"Romania"
+          },
+          {
+          "key":"RS",
+          "value":"Serbia"
+          },
+          {
+          "key":"RU",
+          "value":"Russia"
+          },
+          {
+          "key":"RW",
+          "value":"Rwanda"
+          },
+          {
+          "key":"SA",
+          "value":"Saudi Arabia"
+          },
+          {
+          "key":"SB",
+          "value":"Solomon Islands"
+          },
+          {
+          "key":"SC",
+          "value":"Seychelles"
+          },
+          {
+          "key":"SD",
+          "value":"Sudan"
+          },
+          {
+          "key":"SE",
+          "value":"Sweden"
+          },
+          {
+          "key":"SG",
+          "value":"Singapore"
+          },
+          {
+          "key":"SH",
+          "value":"St. Helena"
+          },
+          {
+          "key":"SI",
+          "value":"Slovenia"
+          },
+          {
+          "key":"SK",
+          "value":"Slovakia"
+          },
+          {
+          "key":"SL",
+          "value":"Sierra Leone"
+          },
+          {
+          "key":"SN",
+          "value":"Senegal"
+          },
+          {
+          "key":"SO",
+          "value":"Somalia"
+          },
+          {
+          "key":"SR",
+          "value":"Suriname"
+          },
+          {
+          "key":"SS",
+          "value":"South Sudan"
+          },
+          {
+          "key":"ST",
+          "value":"Sao Tome and Principe"
+          },
+          {
+          "key":"SV",
+          "value":"El Salvador"
+          },
+          {
+          "key":"SX",
+          "value":"St Maarten"
+          },
+          {
+          "key":"SY",
+          "value":"Syria"
+          },
+          {
+          "key":"SZ",
+          "value":"Swaziland"
+          },
+          {
+          "key":"TC",
+          "value":"Turks and Caicos Islands"
+          },
+          {
+          "key":"TD",
+          "value":"Chad"
+          },
+          {
+          "key":"TG",
+          "value":"Togo"
+          },
+          {
+          "key":"TH",
+          "value":"Thailand"
+          },
+          {
+          "key":"TJ",
+          "value":"Tajikistan"
+          },
+          {
+          "key":"TL",
+          "value":"East Timor"
+          },
+          {
+          "key":"TM",
+          "value":"Turkmenistan"
+          },
+          {
+          "key":"TN",
+          "value":"Tunisia"
+          },
+          {
+          "key":"TO",
+          "value":"Tonga"
+          },
+          {
+          "key":"TR",
+          "value":"Turkey"
+          },
+          {
+          "key":"TT",
+          "value":"Trinidad and Tobago"
+          },
+          {
+          "key":"TV",
+          "value":"Tuvalu"
+          },
+          {
+          "key":"TW",
+          "value":"Taiwan"
+          },
+          {
+          "key":"TZ",
+          "value":"Tanzania"
+          },
+          {
+          "key":"UA",
+          "value":"Ukraine"
+          },
+          {
+          "key":"UG",
+          "value":"Uganda"
+          },
+          {
+          "key":"UK",
+          "value":"United Kingdom"
+          },
+          {
+          "key":"US",
+          "value":"United States"
+          },
+          {
+          "key":"UY",
+          "value":"Uruguay"
+          },
+          {
+          "key":"UZ",
+          "value":"Uzbekistan"
+          },
+          {
+          "key":"VA",
+          "value":"Vatican City"
+          },
+          {
+          "key":"VC",
+          "value":"Saint Vincent and the Grenadines"
+          },
+          {
+          "key":"VE",
+          "value":"Venezuela"
+          },
+          {
+          "key":"VG",
+          "value":"British Virgin Islands"
+          },
+          {
+          "key":"VI",
+          "value":"US Virgin Islands"
+          },
+          {
+          "key":"VN",
+          "value":"Vietnam"
+          },
+          {
+          "key":"VU",
+          "value":"Vanuatu"
+          },
+          {
+          "key":"WF",
+          "value":"Wallis and Futuna Islands"
+          },
+          {
+          "key":"WS",
+          "value":"Samoa"
+          },
+          {
+          "key":"YE",
+          "value":"Yemen"
+          },
+          {
+          "key":"YT",
+          "value":"Mayotte"
+          },
+          {
+          "key":"ZA",
+          "value":"South Africa"
+          },
+          {
+          "key":"ZM",
+          "value":"Zambia"
+          },
+          {
+          "key":"ZW",
+          "value":"Zimbabwe"
+          }
+        ]
+      },
+      {
+        "key": "currency",
+        "label": "Choose the currency you want the price in.",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "controlType": "dropdown",
+        "options": [
+          {
+          "key":"AED",
+          "value":"AED - AED"
+          },
+          {
+          "key":"AFN",
+          "value":"AFN - AFN"
+          },
+          {
+          "key":"ALL",
+          "value":"ALL - Lek"
+          },
+          {
+          "key":"AMD",
+          "value":"AMD - դր."
+          },
+          {
+          "key":"ANG",
+          "value":"ANG - NAf."
+          },
+          {
+          "key":"AOA",
+          "value":"AOA - Kz"
+          },
+          {
+          "key":"ARS",
+          "value":"ARS - $"
+          },
+          {
+          "key":"AUD",
+          "value":"AUD - $"
+          },
+          {
+          "key":"AWG",
+          "value":"AWG - Afl."
+          },
+          {
+          "key":"AZN",
+          "value":"AZN - ₼"
+          },
+          {
+          "key":"BAM",
+          "value":"BAM - КМ"
+          },
+          {
+          "key":"BBD",
+          "value":"BBD - $"
+          },
+          {
+          "key":"BDT",
+          "value":"BDT - BDT"
+          },
+          {
+          "key":"BGN",
+          "value":"BGN - лв."
+          },
+          {
+          "key":"BHD",
+          "value":"BHD"
+          },
+          {
+          "key":"BIF",
+          "value":"BIF - FBu"
+          },
+          {
+          "key":"BMD",
+          "value":"BMD - $"
+          },
+          {
+          "key":"BND",
+          "value":"BND - $"
+          },
+          {
+          "key":"BOB",
+          "value":"BOB - Bs"
+          },
+          {
+          "key":"BRL",
+          "value":"BRL - R$"
+          },
+          {
+          "key":"BSD",
+          "value":"BSD - $"
+          },
+          {
+          "key":"BTN",
+          "value":"BTN - Nu."
+          },
+          {
+          "key":"BWP",
+          "value":"BWP - P"
+          },
+          {
+          "key":"BYN",
+          "value":"BYN - Br"
+          },
+          {
+          "key":"BZD",
+          "value":"BZD - BZ$"
+          },
+          {
+          "key":"CAD",
+          "value":"CAD - C$"
+          },
+          {
+          "key":"CDF",
+          "value":"CDF - FC"
+          },
+          {
+          "key":"‭CHF",
+          "value":"‭CHF - CHF"
+          },
+          {
+          "key":"CLP",
+          "value":"CLP - $"
+          },
+          {
+          "key":"CNY",
+          "value":"CNY - ¥"
+          },
+          {
+          "key":"COP",
+          "value":"COP - $"
+          },
+          {
+          "key":"CRC",
+          "value":"CRC - ₡"
+          },
+          {
+          "key":"CUC",
+          "value":"CUC - CUC"
+          },
+          {
+          "key":"CUP",
+          "value":"CUP - $MN"
+          },
+          {
+          "key":"CVE",
+          "value":"CVE - $"
+          },
+          {
+          "key":"CZK",
+          "value":"CZK - Kč"
+          },
+          {
+          "key":"DJF",
+          "value":"DJF - Fdj"
+          },
+          {
+          "key":"DKK",
+          "value":"DKK - kr."
+          },
+          {
+          "key":"DOP",
+          "value":"DOP - RD$"
+          },
+          {
+          "key":"DZD",
+          "value":"DZD"
+          },
+          {
+          "key":"EGP",
+          "value":"EGP"
+          },
+          {
+          "key":"ERN",
+          "value":"ERN - Nfk"
+          },
+          {
+          "key":"ETB",
+          "value":"ETB - Br"
+          },
+          {
+          "key":"EUR",
+          "value":"EUR - €"
+          },
+          {
+          "key":"FJD",
+          "value":"FJD - $"
+          },
+          {
+          "key":"GBP",
+          "value":"GBP - £"
+          },
+          {
+          "key":"GEL",
+          "value":"GEL - ₾"
+          },
+          {
+          "key":"GHS",
+          "value":"GHS - GH¢"
+          },
+          {
+          "key":"GIP",
+          "value":"GIP - £"
+          },
+          {
+          "key":"GMD",
+          "value":"GMD - D"
+          },
+          {
+          "key":"GNF",
+          "value":"GNF - FG"
+          },
+          {
+          "key":"GTQ",
+          "value":"GTQ - Q"
+          },
+          {
+          "key":"GYD",
+          "value":"GYD - $"
+          },
+          {
+          "key":"HKD",
+          "value":"HKD - HK$"
+          },
+          {
+          "key":"HNL",
+          "value":"HNL - L."
+          },
+          {
+          "key":"HRK",
+          "value":"HRK - kn"
+          },
+          {
+          "key":"HTG",
+          "value":"HTG - G"
+          },
+          {
+          "key":"HUF",
+          "value":"HUF - Ft"
+          },
+          {
+          "key":"IDR",
+          "value":"IDR - Rp"
+          },
+          {
+          "key":"ILS",
+          "value":"ILS - ₪"
+          },
+          {
+          "key":"INR",
+          "value":"INR - ₹"
+          },
+          {
+          "key":"IQD",
+          "value":"IQD"
+          },
+          {
+          "key":"IRR",
+          "value":"IRR"
+          },
+          {
+          "key":"ISK",
+          "value":"ISK - kr."
+          },
+          {
+          "key":"JMD",
+          "value":"JMD - J$"
+          },
+          {
+          "key":"JOD",
+          "value":"JOD"
+          },
+          {
+          "key":"JPY",
+          "value":"JPY - ¥"
+          },
+          {
+          "key":"KES",
+          "value":"KES - S"
+          },
+          {
+          "key":"KGS",
+          "value":"KGS - сом"
+          },
+          {
+          "key":"KHR",
+          "value":"KHR - KHR"
+          },
+          {
+          "key":"KMF",
+          "value":"KMF - CF"
+          },
+          {
+          "key":"KPW",
+          "value":"KPW - ₩"
+          },
+          {
+          "key":"KRW",
+          "value":"KRW - ₩"
+          },
+          {
+          "key":"KWD",
+          "value":"KWD"
+          },
+          {
+          "key":"KYD",
+          "value":"KYD - $"
+          },
+          {
+          "key":"KZT",
+          "value":"KZT - Т"
+          },
+          {
+          "key":"LAK",
+          "value":"LAK - ₭"
+          },
+          {
+          "key":"LBP",
+          "value":"LBP"
+          },
+          {
+          "key":"LKR",
+          "value":"LKR - Rp"
+          },
+          {
+          "key":"LRD",
+          "value":"LRD - $"
+          },
+          {
+          "key":"LSL",
+          "value":"LSL - M"
+          },
+          {
+          "key":"LYD",
+          "value":"LYD"
+          },
+          {
+          "key":"MAD",
+          "value":"MAD"
+          },
+          {
+          "key":"MDL",
+          "value":"MDL - lei"
+          },
+          {
+          "key":"MGA",
+          "value":"MGA - Ar"
+          },
+          {
+          "key":"MKD",
+          "value":"MKD - ден."
+          },
+          {
+          "key":"MMK",
+          "value":"MMK - K"
+          },
+          {
+          "key":"MNT",
+          "value":"MNT - ₮"
+          },
+          {
+          "key":"MOP",
+          "value":"MOP - MOP$"
+          },
+          {
+          "key":"MRO",
+          "value":"MRO - UM"
+          },
+          {
+          "key":"MUR",
+          "value":"MUR - Rs"
+          },
+          {
+          "key":"MVR",
+          "value":"MVR - MVR"
+          },
+          {
+          "key":"MWK",
+          "value":"MWK - MK"
+          },
+          {
+          "key":"MXN",
+          "value":"MXN - $"          
+          },
+          {
+          "key":"MYR",
+          "value":"MYR - RM"
+          },
+          {
+          "key":"MZN",
+          "value":"MZN - MT"
+          },
+          {
+          "key":"NAD",
+          "value":"NAD - $"
+          },
+          {
+          "key":"NGN",
+          "value":"NGN - ₦"
+          },
+          {
+          "key":"NIO",
+          "value":"NIO - C$"
+          },
+          {
+          "key":"NOK",
+          "value":"NOK - kr"
+          },
+          {
+          "key":"NPR",
+          "value":"NPR - रु"
+          },
+          {
+          "key":"NZD",
+          "value":"NZD - $"
+          },
+          {
+          "key":"OMR",
+          "value":"OMR"
+          },
+          {
+          "key":"PAB",
+          "value":"PAB - B/."
+          },
+          {
+          "key":"PEN",
+          "value":"PEN - S/."
+          },
+          {
+          "key":"PGK",
+          "value":"PGK - K"
+          },
+          {
+          "key":"PHP",
+          "value":"PHP - P"
+          },
+          {
+          "key":"PKR",
+          "value":"PKR - Rs"
+          },
+          {
+          "key":"PLN",
+          "value":"PLN - zł"
+          },
+          {
+          "key":"PYG",
+          "value":"PYG - Gs"          
+          },
+          {
+          "key":"QAR",
+          "value":"QAR"
+          },
+          {
+          "key":"RON",
+          "value":"RON - lei"
+          },
+          {
+          "key":"RSD",
+          "value":"RSD - Дин."
+          },
+          {
+          "key":"RUB",
+          "value":"RUB - ₽"
+          },
+          {
+          "key":"RWF",
+          "value":"RWF - RWF"
+          },
+          {
+          "key":"SAR",
+          "value":"SAR - SAR"
+          },
+          {
+          "key":"SBD",
+          "value":"SBD - $"
+          },
+          {
+          "key":"SCR",
+          "value":"SCR - Rs"
+          },
+          {
+          "key":"SDG",
+          "value":"SDG"
+          },
+          {
+          "key":"SEK",
+          "value":"SEK - SEK"
+          },
+          {
+          "key":"SGD",
+          "value":"SGD - $"
+          },
+          {
+          "key":"SHP",
+          "value":"SHP - £"
+          },
+          {
+          "key":"SLL",
+          "value":"SLL - Le"
+          },
+          {
+          "key":"SOS",
+          "value":"SOS - S"
+          },
+          {
+          "key":"SRD",
+          "value":"SRD - $"
+          },
+          {
+          "key":"STD",
+          "value":"STD - Db"
+          },
+          {
+          "key":"SYP",
+          "value":"SYP"
+          },
+          {
+          "key":"SZL",
+          "value":"SZL - E"
+          },
+          {
+          "key":"THB",
+          "value":"THB"
+          },
+          {
+          "key":"TJS",
+          "value":"TJS - TJS"
+          },
+          {
+          "key":"TMT",
+          "value":"TMT - m"
+          },
+          {
+          "key":"TND",
+          "value":"TND"
+          },
+          {
+          "key":"TOP",
+          "value":"TOP - T$"
+          },
+          {
+          "key":"TRY",
+          "value":"TRY - TL"
+          },
+          {
+          "key":"TTD",
+          "value":"TTD - TT$"
+          },
+          {
+          "key":"TWD",
+          "value":"TWD - NT$"
+          },
+          {
+          "key":"TZS",
+          "value":"TZS - TSh"
+          },
+          {
+          "key":"UAH",
+          "value":"UAH - грн."
+          },
+          {
+          "key":"UGX",
+          "value":"UGX - USh"
+          },
+          {
+          "key":"USD",
+          "value":"USD - $"
+          },
+          {
+          "key":"UYU",
+          "value":"UYU - $U"
+          },
+          {
+          "key":"UZS",
+          "value":"UZS - сўм"
+          },
+          {
+          "key":"VND",
+          "value":"VND - ₫"
+          },
+          {
+          "key":"VUV",
+          "value":"VUV - VT"
+          },
+          {
+          "key":"WST",
+          "value":"WST - WS$"
+          },
+          {
+          "key":"XAF",
+          "value":"XAF - F"
+          },
+          {
+          "key":"XCD",
+          "value":"XCD - $"
+          },
+          {
+          "key":"XOF",
+          "value":"XOF - F"
+          },
+          {
+          "key":"XPF",
+          "value":"XPF - F"
+          },
+          {
+          "key":"YER",
+          "value":"YER"
+          },
+          {
+          "key":"ZAR",
+          "value":"ZAR - R"
+          },
+          {
+          "key":"ZMW",
+          "value":"ZMW - ZK"
+          }
+        ]
+      },
       {
         "key": "originPlace",
         "label": "Choose an origin place.",
