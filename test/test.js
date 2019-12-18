@@ -26,8 +26,8 @@ describe('FlightPriceWatcher', () => {
             let app = await buildApp(config);
             return app.run().then((signal) => {
                 assert.ok(signal); 
-                // Has to be black
-                assert.equal(signal.points[0][0].color, '#000000');
+                // Has to be green
+                assert.equal(signal.points[0][0].color, '#088A08');
             }).catch((error) => {
                 assert.fail(error)
             });
@@ -99,7 +99,8 @@ function getConfig() {
                 originPlace: 'JFK',
                 destinationPlace: 'AUS',
                 departDate: '2020-01-01',
-                returnDate: '2020-01-10'
+                returnDate: '2020-01-10',
+                currency: 'USD'
             }            
         },
         geometry: {
