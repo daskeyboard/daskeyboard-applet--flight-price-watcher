@@ -25,7 +25,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint index.js --fix"
+    "lint": "eslint /.js --fix"
   },
   "author": "Camille Bouquet",
   "license": "MIT",
@@ -45,7 +45,7 @@
     "authorization": {
       "type": "apiKey",
       "hint": "Get the api key from the search flight page of Skyscanner website.",
-      "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search?endpoint=5aa1eab3e4b00687d3574279"
+      "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
     },
     "questions": [
       {

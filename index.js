@@ -32,6 +32,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if (!this.authorization.apiKey) {
 			throw 'Invalid API key';
 		}
+		if ((this.config.originPlace.length || this.config.destinationPlace.length) !== 3) {
+			throw 'Invalid place';
+		}
+		this.config.departDate = new RegExp('yyyy-mm-dd');
+		this.config.returnDate = new RegExp('yyyy-mm-dd');
 		return request(settings).then(answer => {
 			const json = JSON.parse(answer);
 			if (json.Quotes.length == 0) {
