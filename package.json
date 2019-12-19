@@ -31,7 +31,8 @@
   "license": "MIT",
   "dependencies": {
     "daskeyboard-applet": "^2.11.4",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "fs": "^0.0.1-security"
   },
   "qConfig": {
     "geometry": {
@@ -672,9 +673,12 @@
         "help": "",
         "required": true,
         "order": 1,
+        "value": "AUS",
+        "valueLabel": "Austin Bergstrom International Airport",
         "placeholder": "ABC",
         "hint": "The place must have this format: ABC",
-        "controlType": "textbox"
+        "controlType": "search",
+        "options": []
       },
       {
         "key": "destinationPlace",
@@ -684,7 +688,7 @@
         "order": 1,
         "placeholder": "ABC",
         "hint": "The place must have this format: ABC",
-        "controlType": "textbox"
+        "controlType": "search"
       },
       {
         "key": "departDate",
@@ -706,7 +710,12 @@
         "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
       }
-    ]
+    ],
+    "requirements": {
+      "applet": {
+        "originPlace": "select"
+      }
+    }
   },
   "devDependencies": {
     "eslint": "^6.7.2",

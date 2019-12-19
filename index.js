@@ -1,5 +1,6 @@
 const q = require('daskeyboard-applet');
 const request = require('request-promise');
+const fs = require('fs');
 const logger = q.logger;
 
 // Check the price of a selected flight every minute in order to buy it at the best price
@@ -35,8 +36,6 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if ((this.config.originPlace.length || this.config.destinationPlace.length) !== 3) {
 			throw 'Invalid place';
 		}
-		this.config.departDate = new RegExp('yyyy-mm-dd');
-		this.config.returnDate = new RegExp('yyyy-mm-dd');
 		return request(settings).then(answer => {
 			const json = JSON.parse(answer);
 			if (json.Quotes.length == 0) {
@@ -46,6 +45,49 @@ class FlightPriceWatcher extends q.DesktopApp {
 			return json.Quotes[0].MinPrice;
 		});
 	}
+
+	async options(search) {
+		if (airports) {
+		  return this.getIATA(airports, search);
+		} else if (fs.existsSync('./airports.json')) {
+		  logger.info('Loading places from a file.');
+		  airports = require('./airports.json');
+		  return this.getIATA(airports, search);
+		} else {
+			logger.info("Retrieving airports via API...");
+			return request.get({
+			  url: 'https://raw.githubusercontent.com/jbrooksuk/JSON-Airports/master/airports.json',
+			  json: true
+			}).then(body => {
+				airports = body;
+			  return this.getIATA(airports, search);
+			}).catch((error) => {
+			  logger.error("Caught error:", error);
+			})
+		}
+	}
+	
+ 	/**
+   * Process a airports JSON to an options list
+   * @param {*} airports
+   * @param {String} search 
+   */
+	async getIATA(airports, search) {
+		if (search != null) {
+		  search = search.trim().toLowerCase();
+		}
+		this.config.originPlace = [];
+		for (airport of airports){
+			const key = airport.iata;
+			let value = airport.name;
+			if (!search || value.toLowerCase().includes(search)) {
+				this.config.originPlace.push({
+					key: key,
+					value: value
+				});
+			}
+		}
+	}	
 
 	// Store price obtained from last update
 	setLastPrice(price) {
