@@ -55,6 +55,7 @@
         "help": "",
         "required": true,
         "order": 1,
+        "value": "USD",
         "controlType": "dropdown",
         "options": [
           {
