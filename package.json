@@ -675,9 +675,8 @@
         "order": 1,
         "value": "AUS",
         "valueLabel": "Austin Bergstrom International Airport",
-        "placeholder": "ABC",
-        "hint": "The place must have this format: ABC",
         "controlType": "search",
+        "dynamic": true,
         "options": []
       },
       {
@@ -686,9 +685,11 @@
         "help": "",
         "required": true,
         "order": 1,
-        "placeholder": "ABC",
-        "hint": "The place must have this format: ABC",
-        "controlType": "search"
+        "value": "AUS",
+        "valueLabel": "Asheville Regional Airport",
+        "controlType": "search",
+        "dynamic": true,
+        "options": []
       },
       {
         "key": "departDate",

@@ -33,9 +33,6 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if (!this.authorization.apiKey) {
 			throw 'Invalid API key';
 		}
-		if ((this.config.originPlace.length || this.config.destinationPlace.length) !== 3) {
-			throw 'Invalid place';
-		}
 		return request(settings).then(answer => {
 			const json = JSON.parse(answer);
 			if (json.Quotes.length == 0) {
@@ -45,28 +42,33 @@ class FlightPriceWatcher extends q.DesktopApp {
 			return json.Quotes[0].MinPrice;
 		});
 	}
-
-	async options(search) {
-		if (airports) {
-		  return this.getIATA(airports, search);
-		} else if (fs.existsSync('./airports.json')) {
-		  logger.info('Loading places from a file.');
-		  airports = require('./airports.json');
-		  return this.getIATA(airports, search);
+	
+	async applyConfig(){
+		const departDate = this.config.departDate;
+	}
+	isValidDate(departDate) {
+		
+		const regEx = /^\d{4}-\d{2}-\d{2}$/;
+		if(!departDate.match(regEx)) {
+			return false;  // Invalid format
 		} else {
-			logger.info("Retrieving airports via API...");
-			return request.get({
-			  url: 'https://raw.githubusercontent.com/jbrooksuk/JSON-Airports/master/airports.json',
-			  json: true
-			}).then(body => {
-				airports = body;
-			  return this.getIATA(airports, search);
-			}).catch((error) => {
-			  logger.error("Caught error:", error);
-			})
+			return true; //Valid format
 		}
 	}
-	
+
+	// Complete the place field with a search method linked to JSON file 
+	// The JSON file holds the IATA code and the name of the airports
+	async options(fieldId, search) {
+		try {
+			if (fs.existsSync('./airports.json')) {
+				logger.info('Loading places from a file.');
+				const airports = require('./airports.json');
+				return this.getIATA(airports, search);
+			} 
+		} catch(error) {
+			return [{key: 0, value: "Error: " + error.message}];
+		}
+	}
  	/**
    * Process a airports JSON to an options list
    * @param {*} airports
@@ -76,17 +78,18 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if (search != null) {
 		  search = search.trim().toLowerCase();
 		}
-		this.config.originPlace = [];
-		for (airport of airports){
+		let option = [];
+		for (const airport of airports){
 			const key = airport.iata;
-			let value = airport.name;
+			let value = airport.name || '';
 			if (!search || value.toLowerCase().includes(search)) {
-				this.config.originPlace.push({
+				option.push({
 					key: key,
 					value: value
 				});
-			}
+			}	
 		}
+		return option;
 	}	
 
 	// Store price obtained from last update
