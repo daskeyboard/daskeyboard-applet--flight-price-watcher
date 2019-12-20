@@ -130,13 +130,15 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 
 	async applyConfig() {
+		console.log("here2");
 		const departDate = this.config.departDate;
 		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
 		console.log("here");
-		if(departDate.match(regEx)) {
+		if(!departDate || departDate.match(regEx)) {
 			return true; //Valid format
 		} else {
-			throw 'Error validating format';  // Invalid format
+			console.log("here3");
+			throw new Error("Error validating format");  // Invalid format
 		}
 	}
 }
