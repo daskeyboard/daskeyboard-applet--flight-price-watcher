@@ -42,19 +42,6 @@ class FlightPriceWatcher extends q.DesktopApp {
 			return json.Quotes[0].MinPrice;
 		});
 	}
-	
-	async applyConfig(){
-		const departDate = this.config.departDate;
-	}
-	isValidDate(departDate) {
-		
-		const regEx = /^\d{4}-\d{2}-\d{2}$/;
-		if(!departDate.match(regEx)) {
-			return false;  // Invalid format
-		} else {
-			return true; //Valid format
-		}
-	}
 
 	// Complete the place field with a search method linked to JSON file 
 	// The JSON file holds the IATA code and the name of the airports
@@ -140,6 +127,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 			this.setLastPrice(new_price);
 			return a;
 		})
+	}
+
+	async applyConfig() {
+		const departDate = this.config.departDate;
+		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
+		console.log("here");
+		if(departDate.match(regEx)) {
+			return true; //Valid format
+		} else {
+			throw 'Error validating format';  // Invalid format
+		}
 	}
 }
 
