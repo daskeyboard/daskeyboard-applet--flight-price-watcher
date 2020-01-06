@@ -3,6 +3,8 @@ const request = require('request-promise');
 const fs = require('fs');
 const logger = q.logger;
 
+var airports = null;
+
 // Check the price of a selected flight every minute in order to buy it at the best price
 // Compare the current price to the old price stored one minute ago
 
@@ -46,14 +48,29 @@ class FlightPriceWatcher extends q.DesktopApp {
 	// Complete the place field with a search method linked to JSON file 
 	// The JSON file holds the IATA code and the name of the airports
 	async options(fieldId, search) {
-		try {
-			if (fs.existsSync('./airports.json')) {
-				logger.info('Loading places from a file.');
-				const airports = require('./airports.json');
+		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
+		if (airports) {
+			logger.info("Sending preloaded airports");
+			return this.getIATA(airports, search);
+		} else if (fs.existsSync('./airports.json')) {
+			logger.info('Loading places from a file.');
+			const airports = require('./airports.json');
+			return this.getIATA(airports, search);
+		} else {
+			logger.info("Retrieving airports via API...");
+			return request.get({
+				url: `${API_BASE_URL}/autosuggest/v1.0/US/${this.config.currency}/en-US/?query=${this.config.originPlace}`,
+				headers: {
+					'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+					'x-rapidapi-key': this.authorization.apiKey
+				},
+				json: true
+			}).then(body => {
+				airports = body;
 				return this.getIATA(airports, search);
-			} 
-		} catch(error) {
-			return [{key: 0, value: "Error: " + error.message}];
+			}).catch((error) => {
+				logger.error("Caught error:", error);
+			})
 		}
 	}
  	/**
@@ -105,16 +122,31 @@ class FlightPriceWatcher extends q.DesktopApp {
 			let message;
 			// If there is no price stored in localStorage
 			if (old_price == null) {
-				color = '#088A08'; // green
-				message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+				if (new_price == null) {
+					color = '#DF0101'; // red
+					message = `This flight is not listed. Please modify your request.`;
+				} else if (new_price != null) {
+					color = '#088A08'; // green
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+				}
 			} else if (new_price <= old_price) {
-				color = '#088A08'; // green
-				message = `The best price for this flight is ${new_price} ${this.config.currency}.
-				Let's buy it!`;
+				if (new_price == null) {
+					color = '#DF0101'; // red
+					message = `This flight is not listed. Please modify your request.`;
+				} else {
+					color = '#088A08'; // green
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.
+					Let's buy it!`;
+				}
 			} else if (new_price > old_price) {
-				color = '#DF0101'; // red
-				message = `The best price was ${old_price} ${this.config.currency} 
-				and is now ${new_price} ${this.config.currency}`;
+				if (new_price == null) {
+					color = '#DF0101'; // red
+					message = `This flight is not listed. Please modify your request.`;
+				} else {
+					color = '#DF0101'; // red
+					message = `The best price was ${old_price} ${this.config.currency} 
+					and is now ${new_price} ${this.config.currency}`;
+				}
 			}
 			const a = new q.Signal({
 				points: [
@@ -129,7 +161,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		})
 	}
 
-	async applyConfig() {
+	formatDate() {
 		const departDate = this.config.departDate;
 		const returnDate = this.config.returnDate;
 		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
@@ -138,6 +170,10 @@ class FlightPriceWatcher extends q.DesktopApp {
 		} else {
 			throw new Error("Error validating format");  // Invalid format
 		}
+	}
+
+	async applyConfig() {
+		this.formatDate();
 	}
 }
 
