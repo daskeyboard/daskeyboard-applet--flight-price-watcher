@@ -20,8 +20,10 @@ describe('FlightPriceWatcher', () => {
             let app = new FlightPriceWatcher();
             assert.ok(app.setLastPrice(null));
             assert.equal(app.getLastPrice(), null);
+            // Check if the date format is correct
+            assert.ok(app.formatDate());
           })
-        it('check the color of the key', async function () {
+        it('check the color of the key when none is stored', async function () {
             const config = getConfig();
             let app = await buildApp(config);
             return app.run().then((signal) => {
@@ -51,12 +53,12 @@ describe('FlightPriceWatcher', () => {
         it('Can store the last price and get it from storage', function () {
             // This price has to be adapted
             let app = new FlightPriceWatcher();
-            const price = '100';
+            const price = '20';
             console.log('<<<<<set new price>>>>', price);
             assert.ok(app.setLastPrice(price));
             assert.equal(app.getLastPrice(), price);
         })
-        it('check the color of the key', async function () {
+        it('check the color of the key when new_price <= old_price', async function () {
             const config = getConfig();
             let app = await buildApp(config);
             return app.run().then((signal) => {
@@ -78,7 +80,7 @@ describe('FlightPriceWatcher', () => {
             assert.ok(app.setLastPrice(price));
             assert.equal(app.getLastPrice(), price);
         })
-        it('check the color of the key', async function () {
+        it('check the color of the key when new_price > old_price', async function () {
             const config = getConfig();
             let app = await buildApp(config);
             return app.run().then((signal) => {
@@ -98,8 +100,8 @@ function getConfig() {
             user: {
                 originPlace: 'JFK',
                 destinationPlace: 'AUS',
-                departDate: '2020-01-01',
-                returnDate: '2020-01-10',
+                departDate: '2020-02-01',
+                returnDate: '2020-02-10',
                 currency: 'USD'
             }            
         },
