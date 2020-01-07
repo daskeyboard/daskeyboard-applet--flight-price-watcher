@@ -147,21 +147,21 @@ class FlightPriceWatcher extends q.DesktopApp {
 		})
 	}
 
-	checkFormatDate() {
-		const departDate = this.config.departDate;
-		const returnDate = this.config.returnDate;
-		console.log('departDate', departDate);
-		console.log('returnDate', returnDate);
+	isDateFormatValid(date) {
 		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
-		if((!departDate || departDate.match(regEx)) && (!returnDate || returnDate.match(regEx))) {
+		if(!date || date.match(regEx)) {
 			return true; //Valid format
 		} else {
-			throw new Error("Error validating format");  // Invalid format
+			return false;  // Invalid format
 		}
 	}
 
 	async applyConfig() {
-		this.checkFormatDate();
+		if (!this.isDateFormatValid(this.config.departDate)) {
+			throw new Error('Depart date format invalid');
+		} else if (!this.isDateFormatValid(this.config.returnDate)) {
+			throw new Error('Return date format invalid');
+		}
 	}
 }
 
