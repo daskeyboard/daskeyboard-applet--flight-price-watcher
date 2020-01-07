@@ -56,22 +56,23 @@ class FlightPriceWatcher extends q.DesktopApp {
 			logger.info('Loading places from a file.');
 			const airports = require('./airports.json');
 			return this.getIATA(airports, search);
-		} else {
-			logger.info("Retrieving airports via API...");
-			return request.get({
-				url: `${API_BASE_URL}/autosuggest/v1.0/US/${this.config.currency}/en-US/?query=${this.config.originPlace}`,
-				headers: {
-					'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-					'x-rapidapi-key': this.authorization.apiKey
-				},
-				json: true
-			}).then(body => {
-				airports = body;
-				return this.getIATA(airports, search);
-			}).catch((error) => {
-				logger.error("Caught error:", error);
-			})
 		}
+		// } else {
+		// 	logger.info("Retrieving airports via API...");
+		// 	return request.get({
+		// 		url: `${API_BASE_URL}/autosuggest/v1.0/US/${this.config.currency}/en-US/?query=${this.config.originPlace}`,
+		// 		headers: {
+		// 			'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+		// 			'x-rapidapi-key': this.authorization.apiKey
+		// 		},
+		// 		json: true
+		// 	}).then(body => {
+		// 		airports = body;
+		// 		return this.getIATA(airports, search);
+		// 	}).catch((error) => {
+		// 		logger.error("Caught error:", error);
+		// 	})
+		// }
 	}
  	/**
    * Process a airports JSON to an options list
@@ -104,12 +105,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 
 	// Retrieve stored price data from last update
 	getLastPrice() {
-		if (this.store.get("lastPrice") != null) {
-			return this.store.get("lastPrice");
-		} else {
-			// If no price is stored
-			return null;
-		}
+		return this.store.get("lastPrice");
 	}
 
 	async run() {
@@ -120,33 +116,23 @@ class FlightPriceWatcher extends q.DesktopApp {
 			logger.info(`The old price is ${old_price}`);
 			let color;
 			let message;
+
 			// If there is no price stored in localStorage
-			if (old_price == null) {
-				if (new_price == null) {
-					color = '#DF0101'; // red
-					message = `This flight is not listed. Please modify your request.`;
-				} else if (new_price != null) {
-					color = '#088A08'; // green
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
-				}
+			if (new_price == null) {
+				color = '#DF0101'; // red
+				message = `This flight is not listed. Please modify your request.`;
+			}
+			else if (old_price == null) {
+				color = '#088A08'; // green
+				message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
 			} else if (new_price <= old_price) {
-				if (new_price == null) {
-					color = '#DF0101'; // red
-					message = `This flight is not listed. Please modify your request.`;
-				} else {
-					color = '#088A08'; // green
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.
-					Let's buy it!`;
-				}
-			} else if (new_price > old_price) {
-				if (new_price == null) {
-					color = '#DF0101'; // red
-					message = `This flight is not listed. Please modify your request.`;
-				} else {
-					color = '#DF0101'; // red
-					message = `The best price was ${old_price} ${this.config.currency} 
-					and is now ${new_price} ${this.config.currency}`;
-				}
+				color = '#088A08'; // green
+				message = `The best price for this flight is ${new_price} ${this.config.currency}.
+				Let's buy it!`;
+			} else {
+				color = '#DF0101'; // red
+				message = `The best price was ${old_price} ${this.config.currency} 
+				and is now ${new_price} ${this.config.currency}`;
 			}
 			const a = new q.Signal({
 				points: [
@@ -161,9 +147,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 		})
 	}
 
-	formatDate() {
+	checkFormatDate() {
 		const departDate = this.config.departDate;
 		const returnDate = this.config.returnDate;
+		console.log('departDate', departDate);
+		console.log('returnDate', returnDate);
 		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
 		if((!departDate || departDate.match(regEx)) && (!returnDate || returnDate.match(regEx))) {
 			return true; //Valid format
@@ -173,7 +161,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 
 	async applyConfig() {
-		this.formatDate();
+		this.checkFormatDate();
 	}
 }
 
