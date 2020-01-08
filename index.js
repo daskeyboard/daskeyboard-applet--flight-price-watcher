@@ -57,6 +57,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			const airports = require('./airports.json');
 			return this.getIATA(airports, search);
 		}
+	}
 		// } else {
 		// 	logger.info("Retrieving airports via API...");
 		// 	return request.get({
@@ -73,12 +74,12 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// 		logger.error("Caught error:", error);
 		// 	})
 		// }
-	}
- 	/**
-   * Process a airports JSON to an options list
-   * @param {*} airports
-   * @param {String} search 
-   */
+
+	/**
+ 	* Process a airports JSON to an options list
+	* @param {*} airports
+	* @param {String} search 
+	*/
 	async getIATA(airports, search) {
 		if (search != null) {
 		  search = search.trim().toLowerCase();
