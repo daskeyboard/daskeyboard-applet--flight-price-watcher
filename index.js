@@ -173,11 +173,22 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 	}
 
+	isThresholdFormatValid(price) {
+		var regEx = /^[0-9]*$/;
+		if(!price || price.match(regEx)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	async applyConfig() {
 		if (!this.isDateFormatValid(this.config.departDate)) {
 			throw new Error('Depart date format invalid');
 		} else if (!this.isDateFormatValid(this.config.returnDate)) {
 			throw new Error('Return date format invalid');
+		} else if (!this.isThresholdFormatValid(this.config.threshold)) {
+			throw new Error('Threshold format invalid');
 		}
 	}
 }
