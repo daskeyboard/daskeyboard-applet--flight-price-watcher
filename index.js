@@ -99,59 +99,62 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}	
 
 	// Store price obtained from last update
-	setLastPrice(price) {
-		this.store.put("lastPrice", price);
+	setFirstPrice(price) {
+		const firstPriceDate = this.store.get("firstPriceDate");
+		if(firstPriceDate == null || new Date().getTime() - firstPriceDate > 24*3600*1000) {
+			this.store.put("firstPrice", price);
+			this.store.put("firstPriceDate", new Date().getTime());
+		}
 		return true;
 	}
 
 	// Retrieve stored price data from last update
-	getLastPrice() {
-		return this.store.get("lastPrice");
+	getFirstPrice() {
+		return this.store.get("firstPrice");
 	}
 
 	async run() {
 		// Compare the current price to the old price
 		return this.getPrice().then(new_price => {
-			const old_price = this.getLastPrice();
+			this.setFirstPrice(new_price);
+			const first_price = this.getFirstPrice();
 			logger.info(`The new price is ${new_price}`);
-			logger.info(`The old price is ${old_price}`);
+			logger.info(`The first price is ${first_price}`);
 			logger.info(`The threshold is ${this.config.threshold}`);
 			let color;
 			let message;
-
 			// If there is no price stored in localStorage
 			if (new_price == null) {
 				color = '#DF0101'; // red
 				message = `This flight is not listed. Please modify your request.`;
 			}
 			if (new_price <= this.config.threshold) {
-				if (old_price == null) {
+				if (first_price == null) {
 					color = '#FFFF00'; // yellow
 					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
-				} else if (new_price <= old_price) {
+				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
 					message = `The best price for this flight is ${new_price} ${this.config.currency}.
 					Let's buy it!`;
 				} else {
 					color = '#FFFF00'; // yellow
-					message = `The best price was ${old_price} ${this.config.currency} 
+					message = `The best price was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
 			} else {
-				if (old_price == null) {
+				if (first_price == null) {
 					color = '#FF8000'; // orange
 					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
-				} else if (new_price <= old_price) {
+				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
 					message = `The best price for this flight is ${new_price} ${this.config.currency}.
 					Let's buy it!`;
 				} else {
 					color = '#DF0101'; // red
-					message = `The best price was ${old_price} ${this.config.currency} 
+					message = `The best price was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
 			}
-			
 			const a = new q.Signal({
 				points: [
 					[new q.Point(color)]
@@ -160,7 +163,6 @@ class FlightPriceWatcher extends q.DesktopApp {
 				message: message,
 				errors: 'Error signal'
 			});
-			this.setLastPrice(new_price);
 			return a;
 		})
 	}
@@ -183,7 +185,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 	}
 
-	async applyConfig() {
+	async applyConfig() {	
 		if (!this.isDateFormatValid(this.config.departDate)) {
 			throw new Error('Depart date format invalid');
 		} else if (!this.isDateFormatValid(this.config.returnDate)) {
@@ -191,6 +193,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		} else if (!this.isThresholdFormatValid(this.config.threshold)) {
 			throw new Error('Threshold format invalid');
 		}
+		// this.setFirstPrice(null);
 	}
 }
 
