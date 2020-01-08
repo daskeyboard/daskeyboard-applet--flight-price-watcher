@@ -8,10 +8,18 @@ const {
  * Build the app with the getPrice function that returnns a fake response
  */
 function buildAppWithFakeResponse() {
-    let app = new t.FlightPriceWatcher(getConfig());
+    let app = new t.FlightPriceWatcher();
     app.getPrice = async function () {
-      return 99; // new_price
+        return 99; // new_price
     };
+    app.config = {
+        originPlace: 'JFK',
+        destinationPlace: 'AUS',
+        departDate: '2020-02-02',
+        returnDate: '2020-02-10',
+        currency: 'USD',
+        threshold: 100
+    }
     return app;
   };
 
@@ -35,7 +43,7 @@ describe('FlightPriceWatcher', () => {
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be green
-                assert.equal(signal.points[0][0].color, '#088A08');
+                assert.equal(signal.points[0][0].color, '#FFFF00');
             }).catch((error) => {
                 assert.fail(error)
             });
@@ -71,37 +79,10 @@ describe('FlightPriceWatcher', () => {
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be red
-                assert.equal(signal.points[0][0].color, '#DF0101');
+                assert.equal(signal.points[0][0].color, '#FFFF00');
             }).catch((error) => {
                 assert.fail(error)
             });
         });
     });
 });
-
-function getConfig() {
-    const defaultConfig = {
-        applet: {
-            user: {
-                originPlace: 'JFK',
-                destinationPlace: 'AUS',
-                departDate: '2020-02-02',
-                returnDate: '2020-02-10',
-                currency: 'USD'
-            }            
-        },
-        geometry: {
-            width: 1,
-            height: 1,
-        }
-    };
-    return defaultConfig;
-}
-
-// Build application
-async function buildApp(config) {
-    let app = new t.FlightPriceWatcher();
-    await app.processConfig(config);
-    return app;
-
-}

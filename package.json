@@ -709,6 +709,14 @@
         "order": 1,
         "placeholder": "yyyy-mm-dd",
         "controlType": "textbox"
+      },
+      {
+        "key": "threshold",
+        "label": "Choose a threshold price for your flight.",
+        "required": true,
+        "order": 1,
+        "placeholder": "500",
+        "controlType": "textbox"
       }
     ],
     "requirements": {

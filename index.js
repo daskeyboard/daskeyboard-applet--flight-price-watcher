@@ -114,6 +114,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			const old_price = this.getLastPrice();
 			logger.info(`The new price is ${new_price}`);
 			logger.info(`The old price is ${old_price}`);
+			logger.info(`The threshold is ${this.config.threshold}`);
 			let color;
 			let message;
 
@@ -122,18 +123,34 @@ class FlightPriceWatcher extends q.DesktopApp {
 				color = '#DF0101'; // red
 				message = `This flight is not listed. Please modify your request.`;
 			}
-			else if (old_price == null) {
-				color = '#088A08'; // green
-				message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
-			} else if (new_price <= old_price) {
-				color = '#088A08'; // green
-				message = `The best price for this flight is ${new_price} ${this.config.currency}.
-				Let's buy it!`;
+			if (new_price <= this.config.threshold) {
+				if (old_price == null) {
+					color = '#FFFF00'; // yellow
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+				} else if (new_price <= old_price) {
+					color = '#088A08'; // green
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.
+					Let's buy it!`;
+				} else {
+					color = '#FFFF00'; // yellow
+					message = `The best price was ${old_price} ${this.config.currency} 
+					and is now ${new_price} ${this.config.currency}`;
+				}
 			} else {
-				color = '#DF0101'; // red
-				message = `The best price was ${old_price} ${this.config.currency} 
-				and is now ${new_price} ${this.config.currency}`;
+				if (old_price == null) {
+					color = '#FF8000'; // orange
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+				} else if (new_price <= old_price) {
+					color = '#FF8000'; // orange
+					message = `The best price for this flight is ${new_price} ${this.config.currency}.
+					Let's buy it!`;
+				} else {
+					color = '#DF0101'; // red
+					message = `The best price was ${old_price} ${this.config.currency} 
+					and is now ${new_price} ${this.config.currency}`;
+				}
 			}
+			
 			const a = new q.Signal({
 				points: [
 					[new q.Point(color)]
