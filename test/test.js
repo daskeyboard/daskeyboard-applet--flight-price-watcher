@@ -30,6 +30,8 @@ describe('FlightPriceWatcher', () => {
             // Check if the date format is correct
             assert.ok(app.isDateFormatValid('2020-02-02'));
             assert.equal(app.isDateFormatValid('2020-0202-02'), false);
+            assert.ok(app.isThresholdFormatValid('465465456'));
+            assert.equal(app.isThresholdFormatValid('4654df'), false);
         });
     });
     describe('Check the case of none in the storage', () => {
