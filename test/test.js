@@ -29,12 +29,9 @@ describe('FlightPriceWatcher', () => {
         // Check if the keyboard key is the right color when none is stored
         // Means getLastPrice returns null
         it('Can get price when none is stored', function () {
-            const app = new FlightPriceWatcher();
+            const app = buildAppWithFakeResponse();
             assert.ok(app.setLastPrice(null));
             assert.equal(app.getLastPrice(), null);
-          })
-        it('check the color of the key when none is stored', async function () {
-            const app = buildAppWithFakeResponse();
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be green
