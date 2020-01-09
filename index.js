@@ -15,6 +15,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// every minute
 		this.pollingInterval = 60 * 1000; // ms
 		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
+		this.store.clear();
 	}
 
 	async getPrice() {
@@ -40,7 +41,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 			if (json.Quotes.length == 0) {
 				return null;
 			}
-			// Collects the first element of "Quotes" corresponding to the minprice for the selected flight.
+			// Collects the first element of "Quotes" corresponding 
+			// to the minprice for the selected flight.
 			return json.Quotes[0].MinPrice;
 		});
 	}
@@ -48,7 +50,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 	// Complete the place field with a search method linked to JSON file 
 	// The JSON file holds the IATA code and the name of the airports
 	async options(fieldId, search) {
-		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
+		// const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		if (airports) {
 			logger.info("Sending preloaded airports");
 			return this.getIATA(airports, search);
@@ -59,9 +61,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 	}
 		// } else {
+		// 	SEARCH_API = autosuggest/v1.0/US/${this.config.currency}/en-US;
+		//  CONFIG_ORIGIN_PLACE = ?query=${this.config.originPlace};
 		// 	logger.info("Retrieving airports via API...");
 		// 	return request.get({
-		// 		url: `${API_BASE_URL}/autosuggest/v1.0/US/${this.config.currency}/en-US/?query=${this.config.originPlace}`,
+		// 		url: `${API_BASE_URL}/${SEARCH_API}/${CONFIG_ORIGIN_PLACE}`,
 		// 		headers: {
 		// 			'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
 		// 			'x-rapidapi-key': this.authorization.apiKey
@@ -82,10 +86,10 @@ class FlightPriceWatcher extends q.DesktopApp {
 	*/
 	async getIATA(airports, search) {
 		if (search != null) {
-		  search = search.trim().toLowerCase();
+			search = search.trim().toLowerCase();
 		}
 		let option = [];
-		for (const airport of airports){
+		for (const airport of airports) {
 			const key = airport.iata;
 			let value = airport.name || '';
 			if (!search || value.toLowerCase().includes(search)) {
@@ -128,14 +132,15 @@ class FlightPriceWatcher extends q.DesktopApp {
 				color = '#DF0101'; // red
 				message = `This flight is not listed. Please modify your request.`;
 			}
-			if (new_price <= this.config.threshold) {
+			else if (new_price <= this.config.threshold) {
 				if (first_price == null) {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+					message = `The best price for this flight is ${new_price}
+					${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.
-					Let's buy it!`;
+					message = `The best price for this flight is ${new_price} 
+					${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#FFFF00'; // yellow
 					message = `The best price was ${first_price} ${this.config.currency} 
@@ -144,10 +149,12 @@ class FlightPriceWatcher extends q.DesktopApp {
 			} else {
 				if (first_price == null) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.`;
+					message = `The best price for this flight is ${new_price}
+					${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight is ${new_price} ${this.config.currency}.
+					message = `The best price for this flight is ${new_price}
+					${this.config.currency}.
 					Let's buy it!`;
 				} else {
 					color = '#DF0101'; // red
@@ -193,7 +200,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		} else if (!this.isThresholdFormatValid(this.config.threshold)) {
 			throw new Error('Threshold format invalid');
 		}
-		// this.setFirstPrice(null);
+		this.store.clear();
 	}
 }
 

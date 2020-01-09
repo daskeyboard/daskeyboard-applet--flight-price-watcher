@@ -7,10 +7,10 @@ const {
 /**
  * Build the app with the getPrice function that returnns a fake response
  */
-function buildAppWithFakeResponse() {
+function buildAppWithFakeResponse(price=99) {
     let app = new t.FlightPriceWatcher();
     app.getPrice = async function () {
-        return 99; // new_price
+        return price; // new_price
     };
     app.config = {
         originPlace: 'JFK',
@@ -68,7 +68,7 @@ describe('FlightPriceWatcher', () => {
         // Check if the keyboard key is the right color when the new price > the old price
         it('Color of the key when new_price<=threshold', async function () {
             // This price has to be adapted
-            let app = buildAppWithFakeResponse();
+            let app = buildAppWithFakeResponse(95);
             app.config.threshold = 100;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);

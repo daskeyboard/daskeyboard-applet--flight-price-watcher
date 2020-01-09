@@ -16,6 +16,6 @@ module.exports = {
     },
     "rules": {
         "max-len": [2, {"code": 100, "tabWidth": 4, "ignoreUrls": true}],
-        "space-before-blocks": { "functions": "always", "keywords": "always", "classes": "always" },
+        "space-before-blocks": [2, { "functions": "always", "keywords": "always", "classes": "always" }],
     },
 };
