@@ -5,7 +5,7 @@ const {
 } = require('../index');
 
 /**
- * Build the app with the getPrice function that returnns a fake response
+ * Build the app with the getPrice function that returns a fake response
  */
 function buildAppWithFakeResponse(price=99) {
     let app = new t.FlightPriceWatcher();

@@ -2,8 +2,8 @@
   "name": "daskeyboard-applet--flight-price-watcher",
   "version": "1.0.0",
   "displayName": "Flight Price Watcher",
-  "description": "Find the best prices and throw yourself in the air with Flight Price Watcher. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
-  "longDescription": "Displays a notification on Das Keyboard Q series when there is a cheap flight.",
+  "description": "Follow the evolution of the price of your flight with Flight Price Watcher. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
+  "longDescription": "Displays a notification on Das Keyboard Q series according to the price.",
   "publisher": "Das Keyboard",
   "officialProductName": "Flight Price Watcher",
   "publisherName": "Das Keyboard",
@@ -670,7 +670,7 @@
       },
       {
         "key": "originPlace",
-        "label": "Choose an origin place.",
+        "label": "Choose an origin place for your flight.",
         "help": "",
         "required": true,
         "order": 1,
@@ -715,7 +715,7 @@
         "label": "Choose a threshold price for your flight.",
         "required": true,
         "order": 1,
-        "placeholder": "500",
+        "placeholder": "100",
         "controlType": "textbox"
       }
     ],

@@ -6,7 +6,8 @@ const logger = q.logger;
 var airports = null;
 
 // Check the price of a selected flight every minute in order to buy it at the best price.
-// Compare the current price to the first price stored when the applet is loaded.
+// Compare the current price with the first price stored when the applet has been loaded.
+// (This first price is saved during 24 hours).
 
 class FlightPriceWatcher extends q.DesktopApp {
 
@@ -48,7 +49,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		});
 	}
 
-	// Search method linked to a JSON file.
+	// Search method linked to a JSON file for the airport name input in the form.
 	// The JSON file holds the IATA code and the name of the airports
 	async options(fieldId, search) {
 		// const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
@@ -111,7 +112,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			logger.info(`The threshold is ${this.config.threshold}`);
 			let color;
 			let message;
-			// If there is no price stored in localStorage
+			// If there is no flight listed.
 			if (new_price == null) {
 				color = '#DF0101'; // red
 				message = `This flight is not listed. Please modify your request.`;
