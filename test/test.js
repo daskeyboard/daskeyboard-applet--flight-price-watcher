@@ -30,6 +30,7 @@ describe('FlightPriceWatcher', () => {
             // Check if the date format is correct
             assert.ok(app.isDateFormatValid('2020-02-02'));
             assert.equal(app.isDateFormatValid('2020-0202-02'), false);
+            // Check if the threshold price format is correct
             assert.ok(app.isThresholdFormatValid('465465456'));
             assert.equal(app.isThresholdFormatValid('4654df'), false);
         });

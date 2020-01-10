@@ -6,9 +6,18 @@ This applet will help you to find the best flight prices.
 
 ## Example
 
-Displays a notification on Das Keyboard Q series when there is a cheap flight. The selected key will change from green
-to red according to the price of the flight. If the new price is cheaper than the old price, it will be green and if the
-new price is more expensive than the old one it will be red.
+Displays a notification on Das Keyboard Q series when there is a cheap flight.
+The user has to set a threshold for his flight. In order to do it he has to go on the skyscanner website and check the
+average price of the flight. Thereby he will be able to set it on the input designated.
+The selected keyboard key will be green or yellow if the price of the flight is under the threshold and orange and red
+if not.
+When the user will load the applet, the first price collected by the API will be saved in the store during 24 hours and
+it will be compared to the prices collected every minutes. Thereby the user will be able to follow the evolution of the
+price of his flight for a 24 hours period.
+In case the price of the flight is under the threshold: if the price collected every minute is under the price
+saved in the store the key will be green, otherwise it will be yellow.
+In case the price of the flight is above the threshold: if the price collected every minute is under the price
+saved in the store the key will be orange, otherwise it will be red.
 
 ![Flight Price Watcher on a Das Keyboard Q](assets/image.png "Flight Price Watcher result")
 

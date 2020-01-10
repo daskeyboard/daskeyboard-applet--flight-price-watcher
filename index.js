@@ -5,8 +5,8 @@ const logger = q.logger;
 
 var airports = null;
 
-// Check the price of a selected flight every minute in order to buy it at the best price
-// Compare the current price to the old price stored one minute ago
+// Check the price of a selected flight every minute in order to buy it at the best price.
+// Compare the current price to the first price stored when the applet is loaded.
 
 class FlightPriceWatcher extends q.DesktopApp {
 
@@ -15,11 +15,12 @@ class FlightPriceWatcher extends q.DesktopApp {
 		// every minute
 		this.pollingInterval = 60 * 1000; // ms
 		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
+		// The store is reset eveytime the applet is reload.
 		this.store.clear();
 	}
 
 	async getPrice() {
-		// Get the current price of the selected flight 
+		// Get the current price of the selected flight. 
 		logger.info(`Getting price`);
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
@@ -47,7 +48,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		});
 	}
 
-	// Complete the place field with a search method linked to JSON file 
+	// Search method linked to a JSON file.
 	// The JSON file holds the IATA code and the name of the airports
 	async options(fieldId, search) {
 		// const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
@@ -60,27 +61,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 			return this.getIATA(airports, search);
 		}
 	}
-		// } else {
-		// 	SEARCH_API = autosuggest/v1.0/US/${this.config.currency}/en-US;
-		//  CONFIG_ORIGIN_PLACE = ?query=${this.config.originPlace};
-		// 	logger.info("Retrieving airports via API...");
-		// 	return request.get({
-		// 		url: `${API_BASE_URL}/${SEARCH_API}/${CONFIG_ORIGIN_PLACE}`,
-		// 		headers: {
-		// 			'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-		// 			'x-rapidapi-key': this.authorization.apiKey
-		// 		},
-		// 		json: true
-		// 	}).then(body => {
-		// 		airports = body;
-		// 		return this.getIATA(airports, search);
-		// 	}).catch((error) => {
-		// 		logger.error("Caught error:", error);
-		// 	})
-		// }
 
 	/**
- 	* Process a airports JSON to an options list
 	* @param {*} airports
 	* @param {String} search 
 	*/
@@ -102,7 +84,9 @@ class FlightPriceWatcher extends q.DesktopApp {
 		return option;
 	}	
 
-	// Store price obtained from last update
+	// Store price obtained from first loaded.
+	// The price is updated every 24 hours.
+	// This price is compared with the price collected from the API every minute.
 	setFirstPrice(price) {
 		const firstPriceDate = this.store.get("firstPriceDate");
 		if(firstPriceDate == null || new Date().getTime() - firstPriceDate > 24*3600*1000) {
@@ -112,13 +96,13 @@ class FlightPriceWatcher extends q.DesktopApp {
 		return true;
 	}
 
-	// Retrieve stored price data from last update
+	// Retrieve stored price data.
 	getFirstPrice() {
 		return this.store.get("firstPrice");
 	}
 
 	async run() {
-		// Compare the current price to the old price
+		// Compare the current price to the first price
 		return this.getPrice().then(new_price => {
 			this.setFirstPrice(new_price);
 			const first_price = this.getFirstPrice();
@@ -135,30 +119,37 @@ class FlightPriceWatcher extends q.DesktopApp {
 			else if (new_price <= this.config.threshold) {
 				if (first_price == null) {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight is ${new_price}
-					${this.config.currency}.`;
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
-					message = `The best price for this flight is ${new_price} 
-					${this.config.currency}. Let's buy it!`;
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#FFFF00'; // yellow
-					message = `The best price was ${first_price} ${this.config.currency} 
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate}
+					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
 			} else {
 				if (first_price == null) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight is ${new_price}
-					${this.config.currency}.`;
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight is ${new_price}
-					${this.config.currency}.
-					Let's buy it!`;
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#DF0101'; // red
-					message = `The best price was ${first_price} ${this.config.currency} 
+					message = `The best price for this flight: from ${this.config.originPlace}
+					to ${this.config.destinationPlace} the ${this.config.departDate}
+					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
 			}
@@ -186,9 +177,9 @@ class FlightPriceWatcher extends q.DesktopApp {
 	isThresholdFormatValid(price) {
 		var regEx = /^[0-9]*$/;
 		if(!price || price.match(regEx)) {
-			return true;
+			return true; // Valid format
 		} else {
-			return false;
+			return false; // Invalid format
 		}
 	}
 
@@ -200,6 +191,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 		} else if (!this.isThresholdFormatValid(this.config.threshold)) {
 			throw new Error('Threshold format invalid');
 		}
+		// The value in the store is reset when the user changes the configuration
+		// of the applet, for example if he wants to change the originPlace or whatever
 		this.store.clear();
 	}
 }

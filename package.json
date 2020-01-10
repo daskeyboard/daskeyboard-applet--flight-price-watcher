@@ -2,7 +2,7 @@
   "name": "daskeyboard-applet--flight-price-watcher",
   "version": "1.0.0",
   "displayName": "Flight Price Watcher",
-  "description": "Find the best prices and throw yourself in the air with Flight Price Watcher.",
+  "description": "Find the best prices and throw yourself in the air with Flight Price Watcher. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
   "longDescription": "Displays a notification on Das Keyboard Q series when there is a cheap flight.",
   "publisher": "Das Keyboard",
   "officialProductName": "Flight Price Watcher",
