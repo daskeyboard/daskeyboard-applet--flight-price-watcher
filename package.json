@@ -693,25 +693,27 @@
         "options": []
       },
       {
-        "key": "departDate",
+        "key": "departureDate",
         "label": "Choose an depart date.",
         "help": "",
         "required": true,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
+        "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
       },
       {
         "key": "returnDate",
-        "label": "Choose an optional return date.",
+        "label": "Optional: type a return date.",
         "help": "Optional",
         "required": false,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
+        "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
       },
       {
-        "key": "threshold",
+        "key": "maxAffordablePrice",
         "label": "Choose a threshold price for your flight.",
         "required": true,
         "order": 1,

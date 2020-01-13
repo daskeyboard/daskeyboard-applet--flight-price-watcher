@@ -15,7 +15,7 @@ function buildAppWithFakeResponse(price=99) {
     app.config = {
         originPlace: 'JFK',
         destinationPlace: 'AUS',
-        departDate: '2020-02-02',
+        departureDate: '2020-02-02',
         returnDate: '2020-02-10',
         currency: 'USD',
     }
@@ -40,7 +40,7 @@ describe('FlightPriceWatcher', () => {
         // Means getFirstPrice returns null
         it('Can get price when none is stored when new_price<=threshold', function () {
             const app = buildAppWithFakeResponse();
-            app.config.threshold = 100;
+            app.config.maxAffordablePrice = 100;
             assert.ok(app.setFirstPrice(null));
             assert.equal(app.getFirstPrice(), null);
             return app.run().then((signal) => {
@@ -53,7 +53,7 @@ describe('FlightPriceWatcher', () => {
         });
         it('Can get price when none is stored when new_price>threshold', function () {
             const app = buildAppWithFakeResponse();
-            app.config.threshold = 98;
+            app.config.maxAffordablePrice = 98;
             assert.ok(app.setFirstPrice(null));
             assert.equal(app.getFirstPrice(), null);
             return app.run().then((signal) => {
@@ -70,7 +70,7 @@ describe('FlightPriceWatcher', () => {
         it('Color of the key when new_price<=threshold', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse(95);
-            app.config.threshold = 100;
+            app.config.maxAffordablePrice = 100;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
             assert.ok(app.setFirstPrice(price));
@@ -86,7 +86,7 @@ describe('FlightPriceWatcher', () => {
         it('Color of the key when new_price>threshold', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
-            app.config.threshold = 98;
+            app.config.maxAffordablePrice = 98;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
             assert.ok(app.setFirstPrice(price));
@@ -105,7 +105,7 @@ describe('FlightPriceWatcher', () => {
         it('Color of the key when new_price<=threshold', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
-            app.config.threshold = 100;
+            app.config.maxAffordablePrice = 100;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
             assert.ok(app.setFirstPrice(price));
@@ -121,7 +121,7 @@ describe('FlightPriceWatcher', () => {
         it('Color of the key when new_price>threshold', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
-            app.config.threshold = 98;
+            app.config.maxAffordablePrice = 98;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
             assert.ok(app.setFirstPrice(price));

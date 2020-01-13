@@ -26,7 +26,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
 		const place = `${this.config.originPlace}-sky/${this.config.destinationPlace}-sky`;
-		const date = `${this.config.departDate}?inboundpartialdate=${this.config.returnDate}`;
+		const date = `${this.config.departureDate}?inboundpartialdate=${this.config.returnDate}`;
 		const settings = {
 			url: `${API_BASE_URL}/${API_WORLD_URL}/${place}/${date}`,
 			method: 'GET',
@@ -40,6 +40,9 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 		return request(settings).then(answer => {
 			const collectPrice = JSON.parse(answer);
+			// If no prices are listed
+			// It will display `This flight is not listed. Please modify your request.` 
+			// See the logic line 118
 			if (collectPrice.Quotes.length == 0) {
 				return null;
 			}
@@ -109,7 +112,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			const first_price = this.getFirstPrice();
 			logger.info(`The new price is ${new_price}`);
 			logger.info(`The first price is ${first_price}`);
-			logger.info(`The threshold is ${this.config.threshold}`);
+			logger.info(`The threshold is ${this.config.maxAffordablePrice}`);
 			let color;
 			let message;
 			// If there is no flight listed.
@@ -117,21 +120,21 @@ class FlightPriceWatcher extends q.DesktopApp {
 				color = '#DF0101'; // red
 				message = `This flight is not listed. Please modify your request.`;
 			}
-			else if (new_price <= this.config.threshold) {
+			else if (new_price <= this.config.maxAffordablePrice) {
 				if (first_price == null) {
 					color = '#FFFF00'; // yellow
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#FFFF00'; // yellow
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate}
+					to ${this.config.destinationPlace} the ${this.config.departureDate}
 					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
@@ -139,17 +142,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 				if (first_price == null) {
 					color = '#FF8000'; // orange
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate} is 
+					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#DF0101'; // red
 					message = `The best price for this flight: from ${this.config.originPlace}
-					to ${this.config.destinationPlace} the ${this.config.departDate}
+					to ${this.config.destinationPlace} the ${this.config.departureDate}
 					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
 				}
@@ -185,11 +188,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 
 	async applyConfig() {	
-		if (!this.isDateFormatValid(this.config.departDate)) {
+		if (!this.isDateFormatValid(this.config.departureDate)) {
 			throw new Error('Depart date format invalid');
 		} else if (!this.isDateFormatValid(this.config.returnDate)) {
 			throw new Error('Return date format invalid');
-		} else if (!this.isThresholdFormatValid(this.config.threshold)) {
+		} else if (!this.isThresholdFormatValid(this.config.maxAffordablePrice)) {
 			throw new Error('Threshold format invalid');
 		}
 		// The value in the store is reset when the user changes the configuration

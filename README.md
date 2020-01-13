@@ -1,6 +1,6 @@
 # Q Applet: Flight Price Watcher
 
-This applet will help you to find the best flight prices.
+This applet will help you find the best flight prices.
 
 [GitHub repository](https://github.com/daskeyboard/daskeyboard-applet--fly-me)
 
@@ -8,15 +8,15 @@ This applet will help you to find the best flight prices.
 
 Displays a notification on Das Keyboard Q series according to the price of the flight.
 First, the user has to set a threshold for his flight. In order to do it he has to go on the skyscanner website and
-check the average price of the selected flight. Thereby, he will be able to set it on the designated input.
-The selected keyboard key will be green or yellow if the price of the flight is under the threshold and orange and red
+check the average price of the selected flight. Then, he will be able to set it on the designated input.
+The selected keyboard key will be green or yellow if the price of the flight is under the threshold and orange or red
 if not.
 When the user will load the applet, the first price collected by the API will be saved in the store during 24 hours and
 it will be compared to the prices collected every minute. Thereby the user will be able to follow the evolution of the
 price of his flight for a 24 hours period.
-In case the price of the flight is under the threshold: if the price collected every minute is under the price
+Incase the price of the flight is under the threshold: if the price collected every minute is under the price
 saved in the store the key will be green, otherwise it will be yellow.
-In case the price of the flight is above the threshold: if the price collected every minute is under the price
+Incase the price of the flight is above the threshold: if the price collected every minute is under the price
 saved in the store the key will be orange, otherwise it will be red.
 
 ![Flight Price Watcher on a Das Keyboard Q](assets/image.png "Flight Price Watcher result")
