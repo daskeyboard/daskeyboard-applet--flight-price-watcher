@@ -36,16 +36,16 @@ class FlightPriceWatcher extends q.DesktopApp {
 			}
 		}
 		if (!this.authorization.apiKey) {
-			throw 'Invalid API key';
+			throw 'Missing API key';
 		}
 		return request(settings).then(answer => {
-			const json = JSON.parse(answer);
-			if (json.Quotes.length == 0) {
+			const collectPrice = JSON.parse(answer);
+			if (collectPrice.Quotes.length == 0) {
 				return null;
 			}
 			// Collects the first element of "Quotes" corresponding 
 			// to the minprice for the selected flight.
-			return json.Quotes[0].MinPrice;
+			return collectPrice.Quotes[0].MinPrice;
 		});
 	}
 
