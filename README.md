@@ -1,24 +1,25 @@
 # Q Applet: Flight Price Watcher
 
-This applet will help the user find the best flight prices.
+This applet displays the price trend of a selected flight.
 
 [GitHub repository](https://github.com/daskeyboard/daskeyboard-applet--fly-me)
 
 ## Example
 
-Displays a notification on Das Keyboard Q series according to the price of the flight.
-First, the user has to set a threshold for his flight. The threshold will allow the user to set an average price he
-doesn't want to exceed. In order to do it he has to go on the skyscanner website and check the average price of the
-selected flight. Then, he will be able to set it on the designated input.
-The selected keyboard key will be green or yellow if the price of the flight is under the selected average price and
-orange or red if not.
-When the user will load the applet, the first price collected by the API will be saved in the store during 24 hours and
-it will be compared to the prices collected every minute. Thereby the user will be able to follow the evolution of the
-price of his flight for a 24 hours period.
-Incase the price of the flight is under the selected average price: if the price collected every minute is under the
-price saved in the store the key will be green, otherwise it will be yellow.
-Incase the price of the flight is above the selected average price: if the price collected every minute is under the
-price saved in the store the key will be orange, otherwise it will be red.
+This applet will change the color of the key on the keyboard according to the maximum price the user can afford and
+the price trend:
+
+- <span style="color:green">Green</span>: The price is decreasing and is under the maximum price the user can afford.
+- <span style="color:yellow">Yellow</span>: The price is increasing and is under the maximum price the user can afford.
+- <span style="color:orange">Orange</span>: The price is decreasing and is above the maximum price the user can afford.
+- <span style="color:red">Red</span>: The price is increasing and is above the maximum price the user can afford.
+
+## Account set up
+
+An account at [Skyscanner Flight Search](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) is required in
+order to get an API key.
+
+The user needs to make sure he uses the key labeled `X-RapidAPI-Key` and paste it into the Flight Price Watcher applet.
 
 ![Flight Price Watcher on a Das Keyboard Q](assets/image.png "Flight Price Watcher result")
 

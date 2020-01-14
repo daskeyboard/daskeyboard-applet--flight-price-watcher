@@ -2,8 +2,8 @@
   "name": "daskeyboard-applet--flight-price-watcher",
   "version": "1.0.0",
   "displayName": "Flight Price Watcher",
-  "description": "Follow the evolution of the price of your flight with Flight Price Watcher. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
-  "longDescription": "Displays a notification on Das Keyboard Q series according to the price.",
+  "description": "Displays the price trend of a selected flight. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
+  "longDescription": "Displays a notification on Das Keyboard Q series according to the price trend.",
   "publisher": "Das Keyboard",
   "officialProductName": "Flight Price Watcher",
   "publisherName": "Das Keyboard",
@@ -45,13 +45,13 @@
     },
     "authorization": {
       "type": "apiKey",
-      "hint": "Get the api key from the search flight page of Skyscanner website.",
+      "hint": "Get the api key from the search flight page of Skyscanner website",
       "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
     },
     "questions": [
       {
         "key": "currency",
-        "label": "Choose the currency you want the price in.",
+        "label": "Choose the currency you want the price in",
         "help": "",
         "required": true,
         "order": 1,
@@ -670,7 +670,7 @@
       },
       {
         "key": "departurePlace",
-        "label": "Choose a departure place for your flight.",
+        "label": "Choose a departure place for your flight",
         "help": "",
         "required": true,
         "order": 1,
@@ -683,7 +683,7 @@
       },
       {
         "key": "destinationPlace",
-        "label": "Choose a destination place.",
+        "label": "Choose a destination place",
         "help": "",
         "required": true,
         "order": 1,
@@ -696,7 +696,7 @@
       },
       {
         "key": "departureDate",
-        "label": "Choose a departure date.",
+        "label": "Choose a departure date",
         "help": "",
         "required": true,
         "order": 1,
@@ -706,7 +706,7 @@
       },
       {
         "key": "returnDate",
-        "label": "Optional: type a return date.",
+        "label": "Optional: type a return date",
         "required": false,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
@@ -715,7 +715,7 @@
       },
       {
         "key": "maxAffordablePrice",
-        "label": "Choose an average price for your flight.",
+        "label": "Set the maximum price you can afford",
         "required": true,
         "order": 1,
         "placeholder": "100",

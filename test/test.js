@@ -30,18 +30,18 @@ describe('FlightPriceWatcher', () => {
             // Check if the date format is correct
             assert.ok(app.isDateFormatValid('2020-02-02'));
             assert.equal(app.isDateFormatValid('2020-0202-02'), false);
-            // Check if the threshold price format is correct
-            assert.ok(app.isThresholdFormatValid('465465456'));
-            assert.equal(app.isThresholdFormatValid('4654df'), false);
+            // Check if the maxAffordablePrice price format is correct
+            assert.ok(app.ismaxAffordablePriceFormatValid('465465456'));
+            assert.equal(app.ismaxAffordablePriceFormatValid('4654df'), false);
         });
     });
     describe('Check the case of none in the storage', () => {
         // Check if the keyboard key is the right color when none is stored
         // Means getFirstPrice returns null
-        it('Can get price when none is stored when new_price<=threshold', function () {
+        it('Can get price when none is stored when new_price<=maxAffordablePrice', function () {
             const app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 100;
-            assert.ok(app.storeFirstPriceOfTheDay(null));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(null));
             assert.equal(app.getFirstPriceOfTheDay(), null);
             return app.run().then((signal) => {
                 assert.ok(signal); 
@@ -51,10 +51,10 @@ describe('FlightPriceWatcher', () => {
                 assert.fail(error)
             });
         });
-        it('Can get price when none is stored when new_price>threshold', function () {
+        it('Can get price when none is stored when new_price>maxAffordablePrice', function () {
             const app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 98;
-            assert.ok(app.storeFirstPriceOfTheDay(null));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(null));
             assert.equal(app.getFirstPriceOfTheDay(), null);
             return app.run().then((signal) => {
                 assert.ok(signal); 
@@ -67,13 +67,13 @@ describe('FlightPriceWatcher', () => {
     });
     describe('Check the color of the key when new_price <= first_price', () => {
         // Check if the keyboard key is the right color when the new price > the old price
-        it('Color of the key when new_price<=threshold', async function () {
+        it('Color of the key when new_price<=maxAffordablePrice', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse(95);
             app.config.maxAffordablePrice = 100;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(price));
             assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
@@ -83,13 +83,13 @@ describe('FlightPriceWatcher', () => {
                 assert.fail(error)
             });
         });
-        it('Color of the key when new_price>threshold', async function () {
+        it('Color of the key when new_price>maxAffordablePrice', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 98;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(price));
             assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
@@ -102,13 +102,13 @@ describe('FlightPriceWatcher', () => {
     });
     describe('Check the color of the key when new_price > first_price', () => {
         // Check if the keyboard key is the right color when the new price <= the old price
-        it('Color of the key when new_price<=threshold', async function () {
+        it('Color of the key when new_price<=maxAffordablePrice', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 100;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(price));
             assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
@@ -118,13 +118,13 @@ describe('FlightPriceWatcher', () => {
                 assert.fail(error)
             });
         });
-        it('Color of the key when new_price>threshold', async function () {
+        it('Color of the key when new_price>maxAffordablePrice', async function () {
             // This price has to be adapted
             let app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 98;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.ok(app.storeFirstPriceOfTheDayIfNeeded(price));
             assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 

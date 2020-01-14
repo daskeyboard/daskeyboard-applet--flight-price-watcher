@@ -72,8 +72,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 	// Parameters needed to create the search method and collect the right datas: IATAs and names of
 	// the airports.
 	/**
-	* @param {*} airports
-	* @param {String} search 
+	* @param {*} airports // contains datas
+	* @param {String} search // method
 	*/
 	async getIATA(airports, search) {
 		if (search != null) {
@@ -97,10 +97,10 @@ class FlightPriceWatcher extends q.DesktopApp {
 		return option;
 	}	
 
-	// Store price obtained from first loaded.
+	// Stored price obtained from first load and every 24 hours.
 	// The price is updated every 24 hours.
 	// This price is compared with the price collected from the API every minute.
-	storeFirstPriceOfTheDay(price) {
+	storeFirstPriceOfTheDayIfNeeded(price) {
 		const firstPriceDate = this.store.get("firstPriceDate");
 		if(firstPriceDate == null || new Date().getTime() - firstPriceDate > 24*3600*1000) {
 			this.store.put("firstPrice", price);
@@ -117,11 +117,11 @@ class FlightPriceWatcher extends q.DesktopApp {
 	async run() {
 		// Compare the current price to the first price
 		return this.getPrice().then(new_price => {
-			this.storeFirstPriceOfTheDay(new_price);
+			this.storeFirstPriceOfTheDayIfNeeded(new_price);
 			const first_price = this.getFirstPriceOfTheDay();
 			logger.info(`The new price is ${new_price}`);
 			logger.info(`The first price is ${first_price}`);
-			logger.info(`The threshold is ${this.config.maxAffordablePrice}`);
+			logger.info(`The maxAffordablePrice is ${this.config.maxAffordablePrice}`);
 			let color;
 			let message;
 			// If there is no flight listed.
@@ -132,45 +132,37 @@ class FlightPriceWatcher extends q.DesktopApp {
 			else if (new_price <= this.config.maxAffordablePrice) {
 				if (first_price == null) {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
-					${new_price} ${this.config.currency}.`;
+					message = `Departure date: ${this.config.departureDate}.
+					The current price of this flight is	${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
-					${new_price} ${this.config.currency}. Let's buy it!`;
+					message = `Departure date: ${this.config.departureDate}.
+					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				} else {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate}
-					was ${first_price} ${this.config.currency} 
-					and is now ${new_price} ${this.config.currency}`;
+					message = `Departure date: ${this.config.departureDate}.
+					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				}
 			} else {
 				if (first_price == null) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
-					${new_price} ${this.config.currency}.`;
+					message = `Departure date: ${this.config.departureDate}.
+					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
-					${new_price} ${this.config.currency}. Let's buy it!`;
+					message = `Departure date: ${this.config.departureDate}. 
+					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				} else {
 					color = '#DF0101'; // red
-					message = `The best price for this flight: from ${this.config.departurePlace}
-					to ${this.config.destinationPlace} the ${this.config.departureDate}
-					was ${first_price} ${this.config.currency} 
-					and is now ${new_price} ${this.config.currency}`;
+					message = `Departure date: ${this.config.departureDate}.
+					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				}
 			}
 			const a = new q.Signal({
 				points: [
 					[new q.Point(color)]
 				],
-				name: 'FlightPriceWatcher',
+				name: `Flight ${this.config.departurePlace} -> ${this.config.destinationPlace}`,
 				message: message,
 				errors: 'Error signal'
 			});
@@ -179,7 +171,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 
 	isDateFormatValid(date) {
-		var regEx = /^\d{4}-\d{2}-\d{2}$/;	
+		// var regEx = /^\d{4}-\d{2}-\d{2}$/;	
+		var regEx = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 		if(!date || date.match(regEx)) {
 			return true; //Valid format
 		} else {
@@ -187,7 +180,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 	}
 
-	isThresholdFormatValid(price) {
+	ismaxAffordablePriceFormatValid(price) {
 		var regEx = /^[0-9]*$/;
 		if(!price || price.match(regEx)) {
 			return true; // Valid format
@@ -201,8 +194,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 			throw new Error('Depart date format invalid');
 		} else if (!this.isDateFormatValid(this.config.returnDate)) {
 			throw new Error('Return date format invalid');
-		} else if (!this.isThresholdFormatValid(this.config.maxAffordablePrice)) {
-			throw new Error('Threshold format invalid');
+		} else if (!this.ismaxAffordablePriceFormatValid(this.config.maxAffordablePrice)) {
+			throw new Error('maxAffordablePrice format invalid');
 		}
 		// The value in the store is reset when the user changes the configuration
 		// of the applet, for example if he wants to change the departurePlace or whatever
