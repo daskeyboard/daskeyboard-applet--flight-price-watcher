@@ -2,8 +2,8 @@
   "name": "daskeyboard-applet--flight-price-watcher",
   "version": "1.0.0",
   "displayName": "Flight Price Watcher",
-  "description": "Find the best prices and throw yourself in the air with Flight Price Watcher.",
-  "longDescription": "Displays a notification on Das Keyboard Q series when there is a cheap flight.",
+  "description": "Displays flight price trend.",
+  "longDescription": "Displays a notification on Das Keyboard Q series according to the price trend.",
   "publisher": "Das Keyboard",
   "officialProductName": "Flight Price Watcher",
   "publisherName": "Das Keyboard",
@@ -24,13 +24,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint *.js --fix"
   },
   "author": "Camille Bouquet",
   "license": "MIT",
   "dependencies": {
     "daskeyboard-applet": "^2.11.4",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "fs": "^0.0.1-security"
   },
   "qConfig": {
     "geometry": {
@@ -43,33 +45,658 @@
     },
     "authorization": {
       "type": "apiKey",
-      "hint": "Get the api key from the search flight page of Skyscanner website.",
-      "supportUrl": "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0"
+      "hint": "Get the api key from the search flight page of Skyscanner website",
+      "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
     },
     "questions": [
       {
-        "key": "ORIGIN_PLACE",
-        "label": "Choose an origin place.",
+        "key": "currency",
+        "label": "Choose the currency you want the price in",
         "help": "",
         "required": true,
         "order": 1,
-        "placeholder": "ABC",
-        "hint": "The place must have this format: ABC",
-        "controlType": "textbox"
+        "value": "USD",
+        "controlType": "dropdown",
+        "options": [
+          {
+          "key":"AED",
+          "value":"AED - AED"
+          },
+          {
+          "key":"AFN",
+          "value":"AFN - AFN"
+          },
+          {
+          "key":"ALL",
+          "value":"ALL - Lek"
+          },
+          {
+          "key":"AMD",
+          "value":"AMD - դր."
+          },
+          {
+          "key":"ANG",
+          "value":"ANG - NAf."
+          },
+          {
+          "key":"AOA",
+          "value":"AOA - Kz"
+          },
+          {
+          "key":"ARS",
+          "value":"ARS - $"
+          },
+          {
+          "key":"AUD",
+          "value":"AUD - $"
+          },
+          {
+          "key":"AWG",
+          "value":"AWG - Afl."
+          },
+          {
+          "key":"AZN",
+          "value":"AZN - ₼"
+          },
+          {
+          "key":"BAM",
+          "value":"BAM - КМ"
+          },
+          {
+          "key":"BBD",
+          "value":"BBD - $"
+          },
+          {
+          "key":"BDT",
+          "value":"BDT - BDT"
+          },
+          {
+          "key":"BGN",
+          "value":"BGN - лв."
+          },
+          {
+          "key":"BHD",
+          "value":"BHD"
+          },
+          {
+          "key":"BIF",
+          "value":"BIF - FBu"
+          },
+          {
+          "key":"BMD",
+          "value":"BMD - $"
+          },
+          {
+          "key":"BND",
+          "value":"BND - $"
+          },
+          {
+          "key":"BOB",
+          "value":"BOB - Bs"
+          },
+          {
+          "key":"BRL",
+          "value":"BRL - R$"
+          },
+          {
+          "key":"BSD",
+          "value":"BSD - $"
+          },
+          {
+          "key":"BTN",
+          "value":"BTN - Nu."
+          },
+          {
+          "key":"BWP",
+          "value":"BWP - P"
+          },
+          {
+          "key":"BYN",
+          "value":"BYN - Br"
+          },
+          {
+          "key":"BZD",
+          "value":"BZD - BZ$"
+          },
+          {
+          "key":"CAD",
+          "value":"CAD - C$"
+          },
+          {
+          "key":"CDF",
+          "value":"CDF - FC"
+          },
+          {
+          "key":"‭CHF",
+          "value":"‭CHF - CHF"
+          },
+          {
+          "key":"CLP",
+          "value":"CLP - $"
+          },
+          {
+          "key":"CNY",
+          "value":"CNY - ¥"
+          },
+          {
+          "key":"COP",
+          "value":"COP - $"
+          },
+          {
+          "key":"CRC",
+          "value":"CRC - ₡"
+          },
+          {
+          "key":"CUC",
+          "value":"CUC - CUC"
+          },
+          {
+          "key":"CUP",
+          "value":"CUP - $MN"
+          },
+          {
+          "key":"CVE",
+          "value":"CVE - $"
+          },
+          {
+          "key":"CZK",
+          "value":"CZK - Kč"
+          },
+          {
+          "key":"DJF",
+          "value":"DJF - Fdj"
+          },
+          {
+          "key":"DKK",
+          "value":"DKK - kr."
+          },
+          {
+          "key":"DOP",
+          "value":"DOP - RD$"
+          },
+          {
+          "key":"DZD",
+          "value":"DZD"
+          },
+          {
+          "key":"EGP",
+          "value":"EGP"
+          },
+          {
+          "key":"ERN",
+          "value":"ERN - Nfk"
+          },
+          {
+          "key":"ETB",
+          "value":"ETB - Br"
+          },
+          {
+          "key":"EUR",
+          "value":"EUR - €"
+          },
+          {
+          "key":"FJD",
+          "value":"FJD - $"
+          },
+          {
+          "key":"GBP",
+          "value":"GBP - £"
+          },
+          {
+          "key":"GEL",
+          "value":"GEL - ₾"
+          },
+          {
+          "key":"GHS",
+          "value":"GHS - GH¢"
+          },
+          {
+          "key":"GIP",
+          "value":"GIP - £"
+          },
+          {
+          "key":"GMD",
+          "value":"GMD - D"
+          },
+          {
+          "key":"GNF",
+          "value":"GNF - FG"
+          },
+          {
+          "key":"GTQ",
+          "value":"GTQ - Q"
+          },
+          {
+          "key":"GYD",
+          "value":"GYD - $"
+          },
+          {
+          "key":"HKD",
+          "value":"HKD - HK$"
+          },
+          {
+          "key":"HNL",
+          "value":"HNL - L."
+          },
+          {
+          "key":"HRK",
+          "value":"HRK - kn"
+          },
+          {
+          "key":"HTG",
+          "value":"HTG - G"
+          },
+          {
+          "key":"HUF",
+          "value":"HUF - Ft"
+          },
+          {
+          "key":"IDR",
+          "value":"IDR - Rp"
+          },
+          {
+          "key":"ILS",
+          "value":"ILS - ₪"
+          },
+          {
+          "key":"INR",
+          "value":"INR - ₹"
+          },
+          {
+          "key":"IQD",
+          "value":"IQD"
+          },
+          {
+          "key":"IRR",
+          "value":"IRR"
+          },
+          {
+          "key":"ISK",
+          "value":"ISK - kr."
+          },
+          {
+          "key":"JMD",
+          "value":"JMD - J$"
+          },
+          {
+          "key":"JOD",
+          "value":"JOD"
+          },
+          {
+          "key":"JPY",
+          "value":"JPY - ¥"
+          },
+          {
+          "key":"KES",
+          "value":"KES - S"
+          },
+          {
+          "key":"KGS",
+          "value":"KGS - сом"
+          },
+          {
+          "key":"KHR",
+          "value":"KHR - KHR"
+          },
+          {
+          "key":"KMF",
+          "value":"KMF - CF"
+          },
+          {
+          "key":"KPW",
+          "value":"KPW - ₩"
+          },
+          {
+          "key":"KRW",
+          "value":"KRW - ₩"
+          },
+          {
+          "key":"KWD",
+          "value":"KWD"
+          },
+          {
+          "key":"KYD",
+          "value":"KYD - $"
+          },
+          {
+          "key":"KZT",
+          "value":"KZT - Т"
+          },
+          {
+          "key":"LAK",
+          "value":"LAK - ₭"
+          },
+          {
+          "key":"LBP",
+          "value":"LBP"
+          },
+          {
+          "key":"LKR",
+          "value":"LKR - Rp"
+          },
+          {
+          "key":"LRD",
+          "value":"LRD - $"
+          },
+          {
+          "key":"LSL",
+          "value":"LSL - M"
+          },
+          {
+          "key":"LYD",
+          "value":"LYD"
+          },
+          {
+          "key":"MAD",
+          "value":"MAD"
+          },
+          {
+          "key":"MDL",
+          "value":"MDL - lei"
+          },
+          {
+          "key":"MGA",
+          "value":"MGA - Ar"
+          },
+          {
+          "key":"MKD",
+          "value":"MKD - ден."
+          },
+          {
+          "key":"MMK",
+          "value":"MMK - K"
+          },
+          {
+          "key":"MNT",
+          "value":"MNT - ₮"
+          },
+          {
+          "key":"MOP",
+          "value":"MOP - MOP$"
+          },
+          {
+          "key":"MRO",
+          "value":"MRO - UM"
+          },
+          {
+          "key":"MUR",
+          "value":"MUR - Rs"
+          },
+          {
+          "key":"MVR",
+          "value":"MVR - MVR"
+          },
+          {
+          "key":"MWK",
+          "value":"MWK - MK"
+          },
+          {
+          "key":"MXN",
+          "value":"MXN - $"          
+          },
+          {
+          "key":"MYR",
+          "value":"MYR - RM"
+          },
+          {
+          "key":"MZN",
+          "value":"MZN - MT"
+          },
+          {
+          "key":"NAD",
+          "value":"NAD - $"
+          },
+          {
+          "key":"NGN",
+          "value":"NGN - ₦"
+          },
+          {
+          "key":"NIO",
+          "value":"NIO - C$"
+          },
+          {
+          "key":"NOK",
+          "value":"NOK - kr"
+          },
+          {
+          "key":"NPR",
+          "value":"NPR - रु"
+          },
+          {
+          "key":"NZD",
+          "value":"NZD - $"
+          },
+          {
+          "key":"OMR",
+          "value":"OMR"
+          },
+          {
+          "key":"PAB",
+          "value":"PAB - B/."
+          },
+          {
+          "key":"PEN",
+          "value":"PEN - S/."
+          },
+          {
+          "key":"PGK",
+          "value":"PGK - K"
+          },
+          {
+          "key":"PHP",
+          "value":"PHP - P"
+          },
+          {
+          "key":"PKR",
+          "value":"PKR - Rs"
+          },
+          {
+          "key":"PLN",
+          "value":"PLN - zł"
+          },
+          {
+          "key":"PYG",
+          "value":"PYG - Gs"          
+          },
+          {
+          "key":"QAR",
+          "value":"QAR"
+          },
+          {
+          "key":"RON",
+          "value":"RON - lei"
+          },
+          {
+          "key":"RSD",
+          "value":"RSD - Дин."
+          },
+          {
+          "key":"RUB",
+          "value":"RUB - ₽"
+          },
+          {
+          "key":"RWF",
+          "value":"RWF - RWF"
+          },
+          {
+          "key":"SAR",
+          "value":"SAR - SAR"
+          },
+          {
+          "key":"SBD",
+          "value":"SBD - $"
+          },
+          {
+          "key":"SCR",
+          "value":"SCR - Rs"
+          },
+          {
+          "key":"SDG",
+          "value":"SDG"
+          },
+          {
+          "key":"SEK",
+          "value":"SEK - SEK"
+          },
+          {
+          "key":"SGD",
+          "value":"SGD - $"
+          },
+          {
+          "key":"SHP",
+          "value":"SHP - £"
+          },
+          {
+          "key":"SLL",
+          "value":"SLL - Le"
+          },
+          {
+          "key":"SOS",
+          "value":"SOS - S"
+          },
+          {
+          "key":"SRD",
+          "value":"SRD - $"
+          },
+          {
+          "key":"STD",
+          "value":"STD - Db"
+          },
+          {
+          "key":"SYP",
+          "value":"SYP"
+          },
+          {
+          "key":"SZL",
+          "value":"SZL - E"
+          },
+          {
+          "key":"THB",
+          "value":"THB"
+          },
+          {
+          "key":"TJS",
+          "value":"TJS - TJS"
+          },
+          {
+          "key":"TMT",
+          "value":"TMT - m"
+          },
+          {
+          "key":"TND",
+          "value":"TND"
+          },
+          {
+          "key":"TOP",
+          "value":"TOP - T$"
+          },
+          {
+          "key":"TRY",
+          "value":"TRY - TL"
+          },
+          {
+          "key":"TTD",
+          "value":"TTD - TT$"
+          },
+          {
+          "key":"TWD",
+          "value":"TWD - NT$"
+          },
+          {
+          "key":"TZS",
+          "value":"TZS - TSh"
+          },
+          {
+          "key":"UAH",
+          "value":"UAH - грн."
+          },
+          {
+          "key":"UGX",
+          "value":"UGX - USh"
+          },
+          {
+          "key":"USD",
+          "value":"USD - $"
+          },
+          {
+          "key":"UYU",
+          "value":"UYU - $U"
+          },
+          {
+          "key":"UZS",
+          "value":"UZS - сўм"
+          },
+          {
+          "key":"VND",
+          "value":"VND - ₫"
+          },
+          {
+          "key":"VUV",
+          "value":"VUV - VT"
+          },
+          {
+          "key":"WST",
+          "value":"WST - WS$"
+          },
+          {
+          "key":"XAF",
+          "value":"XAF - F"
+          },
+          {
+          "key":"XCD",
+          "value":"XCD - $"
+          },
+          {
+          "key":"XOF",
+          "value":"XOF - F"
+          },
+          {
+          "key":"XPF",
+          "value":"XPF - F"
+          },
+          {
+          "key":"YER",
+          "value":"YER"
+          },
+          {
+          "key":"ZAR",
+          "value":"ZAR - R"
+          },
+          {
+          "key":"ZMW",
+          "value":"ZMW - ZK"
+          }
+        ]
       },
       {
-        "key": "DESTINATION_PLACE",
-        "label": "Choose an destination place.",
+        "key": "departurePlace",
+        "label": "Choose a departure place for your flight",
         "help": "",
         "required": true,
         "order": 1,
-        "placeholder": "ABC",
-        "hint": "The place must have this format: ABC",
-        "controlType": "textbox"
+        "value": "AUS",
+        "valueLabel": "Austin Bergstrom International Airport",
+        "controlType": "search",
+        "placeholder": "Add an airport",
+        "dynamic": true,
+        "options": []
       },
       {
-        "key": "DEPART_DATE",
-        "label": "Choose an depart date.",
+        "key": "destinationPlace",
+        "label": "Choose a destination place",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "value": "SFO",
+        "valueLabel": "San Francisco International Airport",
+        "controlType": "search",
+        "placeholder": "Add an airport",
+        "dynamic": true,
+        "options": []
+      },
+      {
+        "key": "departureDate",
+        "label": "Choose a departure date",
         "help": "",
         "required": true,
         "order": 1,
@@ -78,18 +705,31 @@
         "controlType": "textbox"
       },
       {
-        "key": "RETURN_DATE",
-        "label": "Choose an optional return date.",
-        "help": "Optional",
+        "key": "returnDate",
+        "label": "Optional: type a return date",
         "required": false,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
         "hint": "The date must have this format: yyyy-mm-dd",
         "controlType": "textbox"
+      },
+      {
+        "key": "maxAffordablePrice",
+        "label": "Set the maximum price you can afford",
+        "required": true,
+        "order": 1,
+        "placeholder": "100",
+        "controlType": "textbox"
       }
-    ]
+    ],
+    "requirements": {
+      "applet": {
+        "departurePlace": "select"
+      }
+    }
   },
   "devDependencies": {
+    "eslint": "^6.7.2",
     "mocha": "^5.2.0"
   }
 }
