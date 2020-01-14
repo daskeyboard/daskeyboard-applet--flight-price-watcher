@@ -25,7 +25,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		logger.info(`Getting price`);
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
-		const place = `${this.config.originPlace}-sky/${this.config.destinationPlace}-sky`;
+		const place = `${this.config.departurePlace}-sky/${this.config.destinationPlace}-sky`;
 		const date = `${this.config.departureDate}?inboundpartialdate=${this.config.returnDate}`;
 		const settings = {
 			url: `${API_BASE_URL}/${API_WORLD_URL}/${place}/${date}`,
@@ -39,21 +39,24 @@ class FlightPriceWatcher extends q.DesktopApp {
 			throw 'Missing API key';
 		}
 		return request(settings).then(answer => {
-			const collectPrice = JSON.parse(answer);
+			const priceFromApi = JSON.parse(answer);
 			// If no prices are listed
 			// It will display `This flight is not listed. Please modify your request.` 
 			// See the logic line 118
-			if (collectPrice.Quotes.length == 0) {
+			if (priceFromApi.Quotes.length == 0) {
 				return null;
 			}
 			// Collects the first element of "Quotes" corresponding 
 			// to the minprice for the selected flight.
-			return collectPrice.Quotes[0].MinPrice;
+			return priceFromApi.Quotes[0].MinPrice;
 		});
 	}
 
-	// Search method linked to a JSON file for the airport name input in the form.
-	// The JSON file holds the IATA code and the name of the airports
+	// This search input allows the user to find easily the name of an airport. 
+	// The user starts to write the name of a city or an airport he needs, then
+	// the search input will show him the different airports linked to his input.
+	// It is a search method linked to a JSON file that holds the IATA code and the name
+	// of the airports we need.
 	async options(fieldId, search) {
 		// const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		if (airports) {
@@ -66,6 +69,8 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 	}
 
+	// Parameters needed to create the search method and collect the right datas: IATAs and names of
+	// the airports.
 	/**
 	* @param {*} airports
 	* @param {String} search 
@@ -76,6 +81,10 @@ class FlightPriceWatcher extends q.DesktopApp {
 		}
 		let option = [];
 		for (const airport of airports) {
+			// Datas needed: the user will enter the name of the airport (value) which is
+			// linked to the IATA (key).
+			// The IATA is needed cause it will be added in the API url to allow the
+			// collect of the price.
 			const key = airport.iata;
 			let value = airport.name || '';
 			if (!search || value.toLowerCase().includes(search)) {
@@ -91,7 +100,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 	// Store price obtained from first loaded.
 	// The price is updated every 24 hours.
 	// This price is compared with the price collected from the API every minute.
-	setFirstPrice(price) {
+	storeFirstPriceOfTheDay(price) {
 		const firstPriceDate = this.store.get("firstPriceDate");
 		if(firstPriceDate == null || new Date().getTime() - firstPriceDate > 24*3600*1000) {
 			this.store.put("firstPrice", price);
@@ -101,15 +110,15 @@ class FlightPriceWatcher extends q.DesktopApp {
 	}
 
 	// Retrieve stored price data.
-	getFirstPrice() {
+	getFirstPriceOfTheDay() {
 		return this.store.get("firstPrice");
 	}
 
 	async run() {
 		// Compare the current price to the first price
 		return this.getPrice().then(new_price => {
-			this.setFirstPrice(new_price);
-			const first_price = this.getFirstPrice();
+			this.storeFirstPriceOfTheDay(new_price);
+			const first_price = this.getFirstPriceOfTheDay();
 			logger.info(`The new price is ${new_price}`);
 			logger.info(`The first price is ${first_price}`);
 			logger.info(`The threshold is ${this.config.maxAffordablePrice}`);
@@ -123,17 +132,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 			else if (new_price <= this.config.maxAffordablePrice) {
 				if (first_price == null) {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#088A08'; // green
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#FFFF00'; // yellow
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate}
 					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
@@ -141,17 +150,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 			} else {
 				if (first_price == null) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}.`;
 				} else if (new_price <= first_price) {
 					color = '#FF8000'; // orange
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate} is 
 					${new_price} ${this.config.currency}. Let's buy it!`;
 				} else {
 					color = '#DF0101'; // red
-					message = `The best price for this flight: from ${this.config.originPlace}
+					message = `The best price for this flight: from ${this.config.departurePlace}
 					to ${this.config.destinationPlace} the ${this.config.departureDate}
 					was ${first_price} ${this.config.currency} 
 					and is now ${new_price} ${this.config.currency}`;
@@ -196,7 +205,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			throw new Error('Threshold format invalid');
 		}
 		// The value in the store is reset when the user changes the configuration
-		// of the applet, for example if he wants to change the originPlace or whatever
+		// of the applet, for example if he wants to change the departurePlace or whatever
 		this.store.clear();
 	}
 }

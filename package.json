@@ -669,32 +669,34 @@
         ]
       },
       {
-        "key": "originPlace",
-        "label": "Choose an origin place for your flight.",
+        "key": "departurePlace",
+        "label": "Choose a departure place for your flight.",
         "help": "",
         "required": true,
         "order": 1,
         "value": "AUS",
         "valueLabel": "Austin Bergstrom International Airport",
         "controlType": "search",
+        "placeholder": "Add an airport",
         "dynamic": true,
         "options": []
       },
       {
         "key": "destinationPlace",
-        "label": "Choose an destination place.",
+        "label": "Choose a destination place.",
         "help": "",
         "required": true,
         "order": 1,
         "value": "SFO",
         "valueLabel": "San Francisco International Airport",
         "controlType": "search",
+        "placeholder": "Add an airport",
         "dynamic": true,
         "options": []
       },
       {
         "key": "departureDate",
-        "label": "Choose an depart date.",
+        "label": "Choose a departure date.",
         "help": "",
         "required": true,
         "order": 1,
@@ -705,7 +707,6 @@
       {
         "key": "returnDate",
         "label": "Optional: type a return date.",
-        "help": "Optional",
         "required": false,
         "order": 1,
         "placeholder": "yyyy-mm-dd",
@@ -714,7 +715,7 @@
       },
       {
         "key": "maxAffordablePrice",
-        "label": "Choose a threshold price for your flight.",
+        "label": "Choose an average price for your flight.",
         "required": true,
         "order": 1,
         "placeholder": "100",
@@ -723,7 +724,7 @@
     ],
     "requirements": {
       "applet": {
-        "originPlace": "select"
+        "departurePlace": "select"
       }
     }
   },

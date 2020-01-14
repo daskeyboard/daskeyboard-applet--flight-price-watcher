@@ -13,7 +13,7 @@ function buildAppWithFakeResponse(price=99) {
         return price; // new_price
     };
     app.config = {
-        originPlace: 'JFK',
+        departurePlace: 'JFK',
         destinationPlace: 'AUS',
         departureDate: '2020-02-02',
         returnDate: '2020-02-10',
@@ -41,8 +41,8 @@ describe('FlightPriceWatcher', () => {
         it('Can get price when none is stored when new_price<=threshold', function () {
             const app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 100;
-            assert.ok(app.setFirstPrice(null));
-            assert.equal(app.getFirstPrice(), null);
+            assert.ok(app.storeFirstPriceOfTheDay(null));
+            assert.equal(app.getFirstPriceOfTheDay(), null);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be yellow
@@ -54,8 +54,8 @@ describe('FlightPriceWatcher', () => {
         it('Can get price when none is stored when new_price>threshold', function () {
             const app = buildAppWithFakeResponse();
             app.config.maxAffordablePrice = 98;
-            assert.ok(app.setFirstPrice(null));
-            assert.equal(app.getFirstPrice(), null);
+            assert.ok(app.storeFirstPriceOfTheDay(null));
+            assert.equal(app.getFirstPriceOfTheDay(), null);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be orange
@@ -73,8 +73,8 @@ describe('FlightPriceWatcher', () => {
             app.config.maxAffordablePrice = 100;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.setFirstPrice(price));
-            assert.equal(app.getFirstPrice(), price);
+            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be green
@@ -89,8 +89,8 @@ describe('FlightPriceWatcher', () => {
             app.config.maxAffordablePrice = 98;
             const price = 500; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.setFirstPrice(price));
-            assert.equal(app.getFirstPrice(), price);
+            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be orange
@@ -108,8 +108,8 @@ describe('FlightPriceWatcher', () => {
             app.config.maxAffordablePrice = 100;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.setFirstPrice(price));
-            assert.equal(app.getFirstPrice(), price);
+            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be yellow
@@ -124,8 +124,8 @@ describe('FlightPriceWatcher', () => {
             app.config.maxAffordablePrice = 98;
             const price = 20; // first_price
             console.log('<<<<<set old price>>>>', price);
-            assert.ok(app.setFirstPrice(price));
-            assert.equal(app.getFirstPrice(), price);
+            assert.ok(app.storeFirstPriceOfTheDay(price));
+            assert.equal(app.getFirstPriceOfTheDay(), price);
             return app.run().then((signal) => {
                 assert.ok(signal); 
                 // Has to be red
