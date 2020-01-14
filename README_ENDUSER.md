@@ -1,6 +1,6 @@
 # Flight Price Watcher
 
-This applet displays the price trend of a selected flight.
+This applet displays the price trend of a flight*.
 
 This applet will change the color of the key on the keyboard according to the maximum price the user can afford and
 the price trend:
@@ -17,4 +17,5 @@ order to get an API key.
 
 The user needs to make sure he uses the key labeled `X-RapidAPI-Key` and paste it into the Flight Price Watcher applet.
 
+(*) Supports only direct flights.
 ![Flight Price Watcher on a Das Keyboard Q](assets/image.png "Flight Price Watcher config and result")

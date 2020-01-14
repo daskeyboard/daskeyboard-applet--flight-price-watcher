@@ -2,7 +2,7 @@
   "name": "daskeyboard-applet--flight-price-watcher",
   "version": "1.0.0",
   "displayName": "Flight Price Watcher",
-  "description": "Displays the price trend of a selected flight. THIS APPLET WORKS ONLY FOR DIRECT FLIGHTS.",
+  "description": "Displays flight price trend.",
   "longDescription": "Displays a notification on Das Keyboard Q series according to the price trend.",
   "publisher": "Das Keyboard",
   "officialProductName": "Flight Price Watcher",
