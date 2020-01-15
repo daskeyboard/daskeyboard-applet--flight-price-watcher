@@ -18,4 +18,6 @@ order to get an API key.
 The user needs to make sure he uses the key labeled `X-RapidAPI-Key` and paste it into the Flight Price Watcher applet.
 
 (*) Supports only direct flights.
+
 ![Flight Price Watcher on a Das Keyboard Q](assets/image.png "Flight Price Watcher config and result")
+
