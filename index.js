@@ -14,7 +14,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 	constructor() {
 		super();
 		// every minute
-		this.pollingInterval = 60 * 1000; // ms
+		this.pollingInterval = 600 * 1000; // ms
 		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
 		// The store is reset eveytime the applet is reload.
 		this.store.clear();
