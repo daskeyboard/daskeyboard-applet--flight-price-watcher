@@ -25,7 +25,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
 		const place = `${this.config.departurePlace}-sky/${this.config.destinationPlace}-sky`;
 		const date = `${this.config.departureDate}`;
-		return {
+		const response = {
 			url: `${API_BASE_URL}/${API_WORLD_URL}/${place}/${date}`,
 			method: 'GET',
 			headers: {
@@ -33,6 +33,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 				'x-rapidapi-key': this.authorization.apiKey
 			}
 		}
+		return response;
 	}
 
 	async getPrice() {
