@@ -45,10 +45,54 @@
     },
     "authorization": {
       "type": "apiKey",
-      "hint": "Get the api key from the search flight page of Skyscanner website",
+      "hint": "Get the X-RapidAPI-Key from the search flight page of Skyscanner website",
       "supportUrl": "https://rapidapi.com/skyscanner/api/skyscanner-flight-search"
     },
     "questions": [
+      {
+        "key": "departurePlace",
+        "label": "Type a departure place for your flight",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "value": "AUS",
+        "valueLabel": "Austin Bergstrom International Airport",
+        "controlType": "search",
+        "placeholder": "Add an airport",
+        "dynamic": true,
+        "options": []
+      },
+      {
+        "key": "destinationPlace",
+        "label": "Type a destination place",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "value": "SFO",
+        "valueLabel": "San Francisco International Airport",
+        "controlType": "search",
+        "placeholder": "Add an airport",
+        "dynamic": true,
+        "options": []
+      },
+      {
+        "key": "departureDate",
+        "label": "Type a departure date",
+        "help": "",
+        "required": true,
+        "order": 1,
+        "placeholder": "yyyy-mm-dd",
+        "hint": "The date must have this format: yyyy-mm-dd",
+        "controlType": "textbox"
+      },
+      {
+        "key": "maxAffordablePrice",
+        "label": "Type the maximum price you can afford",
+        "required": true,
+        "order": 1,
+        "placeholder": "100",
+        "controlType": "textbox"
+      },
       {
         "key": "currency",
         "label": "Choose the currency you want the price in",
@@ -667,59 +711,6 @@
           "value":"ZMW - ZK"
           }
         ]
-      },
-      {
-        "key": "departurePlace",
-        "label": "Choose a departure place for your flight",
-        "help": "",
-        "required": true,
-        "order": 1,
-        "value": "AUS",
-        "valueLabel": "Austin Bergstrom International Airport",
-        "controlType": "search",
-        "placeholder": "Add an airport",
-        "dynamic": true,
-        "options": []
-      },
-      {
-        "key": "destinationPlace",
-        "label": "Choose a destination place",
-        "help": "",
-        "required": true,
-        "order": 1,
-        "value": "SFO",
-        "valueLabel": "San Francisco International Airport",
-        "controlType": "search",
-        "placeholder": "Add an airport",
-        "dynamic": true,
-        "options": []
-      },
-      {
-        "key": "departureDate",
-        "label": "Choose a departure date",
-        "help": "",
-        "required": true,
-        "order": 1,
-        "placeholder": "yyyy-mm-dd",
-        "hint": "The date must have this format: yyyy-mm-dd",
-        "controlType": "textbox"
-      },
-      {
-        "key": "returnDate",
-        "label": "Optional: type a return date",
-        "required": false,
-        "order": 1,
-        "placeholder": "yyyy-mm-dd",
-        "hint": "The date must have this format: yyyy-mm-dd",
-        "controlType": "textbox"
-      },
-      {
-        "key": "maxAffordablePrice",
-        "label": "Set the maximum price you can afford",
-        "required": true,
-        "order": 1,
-        "placeholder": "100",
-        "controlType": "textbox"
       }
     ],
     "requirements": {

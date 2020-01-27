@@ -14,20 +14,18 @@ class FlightPriceWatcher extends q.DesktopApp {
 	constructor() {
 		super();
 		// every minute
-		this.pollingInterval = 60 * 1000; // ms
+		this.pollingInterval = 600 * 1000; // ms
 		logger.info("FlightPriceWatcher starting: Get the cheapest flight price!");
 		// The store is reset eveytime the applet is reload.
 		this.store.clear();
 	}
 
-	async getPrice() {
-		// Get the current price of the selected flight. 
-		logger.info(`Getting price`);
+	settings() {
 		const API_BASE_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices`;
 		const API_WORLD_URL = `browsequotes/v1.0/US/${this.config.currency}/en-US`;
 		const place = `${this.config.departurePlace}-sky/${this.config.destinationPlace}-sky`;
-		const date = `${this.config.departureDate}?inboundpartialdate=${this.config.returnDate}`;
-		const settings = {
+		const date = `${this.config.departureDate}`;
+		const response = {
 			url: `${API_BASE_URL}/${API_WORLD_URL}/${place}/${date}`,
 			method: 'GET',
 			headers: {
@@ -35,6 +33,13 @@ class FlightPriceWatcher extends q.DesktopApp {
 				'x-rapidapi-key': this.authorization.apiKey
 			}
 		}
+		return response;
+	}
+
+	async getPrice() {
+		// Get the current price of the selected flight. 
+		logger.info(`Getting price`);
+		const settings = this.settings();
 		if (!this.authorization.apiKey) {
 			throw 'Missing API key';
 		}
@@ -158,12 +163,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 					The current price of this flight is ${new_price} ${this.config.currency}.`;
 				}
 			}
+			const linkParams = {
+				url: `https://www.skyscanner.com/transport/vols/${this.config.departurePlace}/${this.config.destinationPlace}/${this.config.departureDate}`,
+				label: 'Open in Skyscanner!'
+			}
 			const a = new q.Signal({
 				points: [
 					[new q.Point(color)]
 				],
 				name: `Flight ${this.config.departurePlace} -> ${this.config.destinationPlace}`,
 				message: message,
+				link: linkParams,
 				errors: 'Error signal'
 			});
 			return a;
@@ -192,8 +202,6 @@ class FlightPriceWatcher extends q.DesktopApp {
 	async applyConfig() {	
 		if (!this.isDateFormatValid(this.config.departureDate)) {
 			throw new Error('Depart date format invalid');
-		} else if (!this.isDateFormatValid(this.config.returnDate)) {
-			throw new Error('Return date format invalid');
 		} else if (!this.ismaxAffordablePriceFormatValid(this.config.maxAffordablePrice)) {
 			throw new Error('maxAffordablePrice format invalid');
 		}

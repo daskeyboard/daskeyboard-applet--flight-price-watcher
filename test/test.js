@@ -16,7 +16,6 @@ function buildAppWithFakeResponse(price=99) {
         departurePlace: 'JFK',
         destinationPlace: 'AUS',
         departureDate: '2020-02-02',
-        returnDate: '2020-02-10',
         currency: 'USD',
     }
     return app;
