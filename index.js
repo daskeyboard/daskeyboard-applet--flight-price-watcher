@@ -34,6 +34,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			}
 		}
 		return response;
+		
 	}
 
 	async getPrice() {
@@ -43,18 +44,21 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if (!this.authorization.apiKey) {
 			throw 'Missing API key';
 		}
-		return request(settings).then(answer => {
+		return new Promise((resolve, reject) => request(settings, (error, response, answer) => {
 			const priceFromApi = JSON.parse(answer);
+			if (response.statusCode == 429) {
+				reject();
+			}
 			// If no prices are listed
 			// It will display `This flight is not listed. Please modify your request.` 
 			// See the logic line 118
 			if (priceFromApi.Quotes.length == 0) {
-				return null;
+				resolve (null);
 			}
 			// Collects the first element of "Quotes" corresponding 
 			// to the minprice for the selected flight.
-			return priceFromApi.Quotes[0].MinPrice;
-		});
+			resolve(priceFromApi.Quotes[0].MinPrice);
+		}));
 	}
 
 	// This search input allows the user to find easily the name of an airport. 
@@ -177,7 +181,16 @@ class FlightPriceWatcher extends q.DesktopApp {
 				errors: 'Error signal'
 			});
 			return a;
-		})
+		}).catch(() => {
+			return new q.Signal({
+				points: [
+					[new q.Point('#DF0101')]
+				],
+				name: `Flight ${this.config.departurePlace} -> ${this.config.destinationPlace}`,
+				message: 'Wait, we are looking for the prices....',
+				errors: 'Error signal'
+			});
+		});
 	}
 
 	isDateFormatValid(date) {
