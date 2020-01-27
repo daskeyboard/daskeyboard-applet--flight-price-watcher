@@ -187,7 +187,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 					[new q.Point('#DF0101')]
 				],
 				name: `Flight ${this.config.departurePlace} -> ${this.config.destinationPlace}`,
-				message: 'Wait, we are looking for the prices....',
+				message: 'Wait, we are looking for the prices...',
 				errors: 'Error signal'
 			});
 		});
