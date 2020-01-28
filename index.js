@@ -48,7 +48,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			const priceFromApi = JSON.parse(answer);
 			// 429 means quota exceeded
 			if (response.statusCode == 429) {
-				reject(`Quota exceeded`);
+				reject(429);
 			}
 			// If no prices are listed
 			// It will display `This flight is not listed. Please modify your request.` 
@@ -183,7 +183,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			});
 			return a;
 		}).catch(err => {
-			if (err === 'Quota exceeded') {
+			if (err === 429) {
 				return new q.Signal({
 					points: [
 						[new q.Point('#DF0101')]
