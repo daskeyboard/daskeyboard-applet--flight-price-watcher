@@ -34,6 +34,7 @@ class FlightPriceWatcher extends q.DesktopApp {
 			}
 		}
 		return response;
+
 	}
 
 	async getPrice() {
@@ -43,18 +44,22 @@ class FlightPriceWatcher extends q.DesktopApp {
 		if (!this.authorization.apiKey) {
 			throw 'Missing API key';
 		}
-		return request(settings).then(answer => {
+		return new Promise((resolve, reject) => request(settings, (error, response, answer) => {
 			const priceFromApi = JSON.parse(answer);
+			// 429 means quota exceeded
+			if (response.statusCode == 429) {
+				reject(429);
+			}
 			// If no prices are listed
 			// It will display `This flight is not listed. Please modify your request.` 
 			// See the logic line 118
 			if (priceFromApi.Quotes.length == 0) {
-				return null;
+				resolve(null);
 			}
 			// Collects the first element of "Quotes" corresponding 
 			// to the minprice for the selected flight.
-			return priceFromApi.Quotes[0].MinPrice;
-		});
+			resolve(priceFromApi.Quotes[0].MinPrice);
+		}));
 	}
 
 	// This search input allows the user to find easily the name of an airport. 
@@ -97,17 +102,17 @@ class FlightPriceWatcher extends q.DesktopApp {
 					key: key,
 					value: value
 				});
-			}	
+			}
 		}
 		return option;
-	}	
+	}
 
 	// Stored price obtained from first load and every 24 hours.
 	// The price is updated every 24 hours.
 	// This price is compared with the price collected from the API every minute.
 	storeFirstPriceOfTheDayIfNeeded(price) {
 		const firstPriceDate = this.store.get("firstPriceDate");
-		if(firstPriceDate == null || new Date().getTime() - firstPriceDate > 24*3600*1000) {
+		if (firstPriceDate == null || new Date().getTime() - firstPriceDate > 24 * 3600 * 1000) {
 			this.store.put("firstPrice", price);
 			this.store.put("firstPriceDate", new Date().getTime());
 		}
@@ -177,13 +182,26 @@ class FlightPriceWatcher extends q.DesktopApp {
 				errors: 'Error signal'
 			});
 			return a;
-		})
+		}).catch(err => {
+			if (err === 429) {
+				return new q.Signal({
+					points: [
+						[new q.Point('#DF0101')]
+					],
+					name: `Flight ${this.config.departurePlace} -> ${this.config.destinationPlace}`,
+					message: 'Wait, we are looking for the prices...'
+				});
+			} else {
+				return q.Signal.error(err);
+			}
+
+		});
 	}
 
 	isDateFormatValid(date) {
 		// var regEx = /^\d{4}-\d{2}-\d{2}$/;	
 		var regEx = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-		if(!date || date.match(regEx)) {
+		if (!date || date.match(regEx)) {
 			return true; //Valid format
 		} else {
 			return false;  // Invalid format
@@ -192,14 +210,14 @@ class FlightPriceWatcher extends q.DesktopApp {
 
 	ismaxAffordablePriceFormatValid(price) {
 		var regEx = /^[0-9]*$/;
-		if(!price || price.match(regEx)) {
+		if (!price || price.match(regEx)) {
 			return true; // Valid format
 		} else {
 			return false; // Invalid format
 		}
 	}
 
-	async applyConfig() {	
+	async applyConfig() {
 		if (!this.isDateFormatValid(this.config.departureDate)) {
 			throw new Error('Depart date format invalid');
 		} else if (!this.ismaxAffordablePriceFormatValid(this.config.maxAffordablePrice)) {
