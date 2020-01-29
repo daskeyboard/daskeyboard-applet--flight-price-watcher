@@ -1,5 +1,3 @@
-# Changelog Q Applet Flight Price Watcher
-
-## Version 1.0.0 - December 20, 2019
+#### 1.0.0 (2020-01-29)
 
 First release, tests passed successfully.
